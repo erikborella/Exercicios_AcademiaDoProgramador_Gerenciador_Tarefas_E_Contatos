@@ -154,7 +154,7 @@ namespace ControleDeTarefas.Telas.Compromissos
                 else
                 {
                     ImprimirMensagem($"A hora entra em conflito com o compromisso: " +
-                        $"{conflitante.Assunto} : {conflitante.Data} " +
+                        $"{conflitante.Assunto} : {conflitante.Data.ToShortDateString()} " +
                         $"{conflitante.HoraInicial} - {conflitante.HoraFinal}\n" +
                         "Por favor, tente novamente", TipoMensagem.ERRO);
                     continue;
