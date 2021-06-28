@@ -1,4 +1,4 @@
-﻿using ControleDeTarefas.Dominios;
+﻿using ControleDeTarefas.Dominios.Base;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -6,17 +6,18 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 
-namespace ControleDeTarefas.Controladores
+namespace ControleDeTarefas.Controladores.Base
 {
-    public abstract class ControladorBase<T> where T : DominioBase
+    public abstract class ControladorBase<T> : IControlavel<T> where T : DominioBase
     {
         private DBConexao dbConexao;
-        private string nomeTabela;
+
+        public string NomeTabela { get; private set; }
 
         public ControladorBase(string nomeTabela)
         {
-            this.dbConexao = new DBConexao();
-            this.nomeTabela = nomeTabela;
+            dbConexao = new DBConexao();
+            NomeTabela = nomeTabela;
         }
 
         public bool Inserir(T registro)
@@ -45,7 +46,7 @@ namespace ControleDeTarefas.Controladores
 
                 registro.Id = Convert.ToInt32(id);
 
-                sucessoNaOperacao = (id != 0);
+                sucessoNaOperacao = id != 0;
             });
 
             return sucessoNaOperacao;
@@ -78,7 +79,7 @@ namespace ControleDeTarefas.Controladores
 
                 int n = comando.ExecuteNonQuery();
 
-                sucessoNaOperacao = (n != 0);
+                sucessoNaOperacao = n != 0;
 
             });
 
@@ -99,7 +100,7 @@ namespace ControleDeTarefas.Controladores
 
                 int n = comando.ExecuteNonQuery();
 
-                sucessoNaOperacao = (n != 0);
+                sucessoNaOperacao = n != 0;
             });
 
             return sucessoNaOperacao;
@@ -178,11 +179,11 @@ namespace ControleDeTarefas.Controladores
         }
 
 
-        protected string GerarSqlInserir(string[] campos)
+        private string GerarSqlInserir(string[] campos)
         {
             StringBuilder sql = new StringBuilder();
 
-            sql.AppendLine($"INSERT INTO [{nomeTabela}]");
+            sql.AppendLine($"INSERT INTO [{NomeTabela}]");
             sql.AppendLine("(");
 
             for (int i = 0; i < campos.Length; i++)
@@ -216,11 +217,11 @@ namespace ControleDeTarefas.Controladores
             return sql.ToString();
         }
 
-        protected string GerarSqlEditar(string[] campos)
+        private string GerarSqlEditar(string[] campos)
         {
             StringBuilder sql = new StringBuilder();
 
-            sql.AppendLine($"UPDATE [{nomeTabela}]");
+            sql.AppendLine($"UPDATE [{NomeTabela}]");
             sql.AppendLine("SET");
 
             for (int i = 0; i < campos.Length; i++)
@@ -243,7 +244,7 @@ namespace ControleDeTarefas.Controladores
         {
             StringBuilder sql = new StringBuilder();
 
-            sql.AppendLine($"DELETE FROM [{nomeTabela}]");
+            sql.AppendLine($"DELETE FROM [{NomeTabela}]");
             sql.AppendLine("WHERE");
             sql.AppendLine("[Id] = @Id");
 
@@ -256,7 +257,7 @@ namespace ControleDeTarefas.Controladores
 
             sql.AppendLine("SELECT");
             sql.AppendLine("*");
-            sql.AppendLine($"FROM [{nomeTabela}]");
+            sql.AppendLine($"FROM [{NomeTabela}]");
             sql.AppendLine("WHERE");
             sql.AppendLine("[Id] = @Id");
 
@@ -269,7 +270,7 @@ namespace ControleDeTarefas.Controladores
 
             sql.AppendLine("SELECT");
             sql.AppendLine("*");
-            sql.AppendLine($"FROM [{nomeTabela}]");
+            sql.AppendLine($"FROM [{NomeTabela}]");
 
             return sql.ToString();
         }

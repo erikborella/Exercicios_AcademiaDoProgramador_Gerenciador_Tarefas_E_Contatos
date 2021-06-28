@@ -1,4 +1,4 @@
-﻿namespace ControleDeTarefas.Dominios
+﻿namespace ControleDeTarefas.Dominios.Base
 {
     public class DominioBase
     {

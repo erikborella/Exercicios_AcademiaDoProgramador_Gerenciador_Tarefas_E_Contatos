@@ -1,4 +1,5 @@
-﻿using ControleDeTarefas.Dominios;
+﻿using ControleDeTarefas.Controladores.Base;
+using ControleDeTarefas.Dominios;
 using System;
 using System.Data.SqlClient;
 

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Text;
+using System.Linq;
 using System.Collections.Generic;
 
 namespace ControleDeTarefas.Telas.Base
@@ -19,6 +21,7 @@ namespace ControleDeTarefas.Telas.Base
         {
             this.descricao = descricao;
         }
+
 
         public virtual TelaBase Executar()
         {
@@ -127,12 +130,126 @@ namespace ControleDeTarefas.Telas.Base
             }
         }
 
+        protected DateTime LerData()
+        {
+            while (true)
+            {
+                try
+                {
+                    string dataStr = Console.ReadLine();
+                    DateTime data = DateTime.Parse(dataStr);
+
+                    return data;
+                }
+                catch (Exception)
+                {
+                    ImprimirMensagem("Digite uma data no formato dd/mm/aaaa", TipoMensagem.ERRO);
+                    continue;
+                }
+            }
+        }
+
+        protected TimeSpan LerHora()
+        {
+            while (true)
+            {
+                try
+                {
+                    string horaStr = Console.ReadLine();
+                    TimeSpan hora = TimeSpan.Parse(horaStr);
+
+                    if (hora.Days != 0)
+                        throw new Exception();
+
+                    return hora;
+                } 
+                catch (Exception)
+                {
+                    ImprimirMensagem("Digite um horario no formato hh:mm:ss", TipoMensagem.ERRO);
+                    continue;
+                }
+            }
+        }
+
         protected void Pausar()
         {
             Console.WriteLine();
             Console.Write("Digite qualquer coisa para continuar: ");
 
             Console.ReadLine();
+        }
+
+        protected void ImprimirRegistros<T>(string[] nomesColunas, 
+            T[] registros, Func<T, object[]> obterValoresLinha)
+        {
+            string[][] valores = ExtrairValoresLinhas(registros, obterValoresLinha, nomesColunas.Length);
+
+            string template = GerarTemplate(nomesColunas, valores);
+
+            Console.WriteLine(template, nomesColunas);
+
+            Console.WriteLine();
+
+            if (registros.Length == 0)
+                Console.WriteLine("Nenhum registro encontrado");
+
+            foreach(string[] valoresLinha in valores)
+            {
+                Console.WriteLine(template, valoresLinha);
+            }
+        }
+
+
+        private string[][] ExtrairValoresLinhas<T>(T[] registros, Func<T, object[]> obterValoresLinha, int nColunas)
+        {
+            string[][] valores = new string[registros.Length][];
+
+            for (int i = 0; i < registros.Length; i++)
+            {
+                object[] valoresLinha = obterValoresLinha(registros[i]);
+
+                if (valoresLinha.Length != nColunas)
+                    throw new ArgumentOutOfRangeException(
+                        "A quantidade de valores não fecham com a quantidade de colunas",
+                        nameof(registros));
+
+                valores[i] = valoresLinha
+                    .Select(registro => 
+                        (registro != null) ? registro.ToString() : "")
+                    .ToArray();
+            }
+
+            return valores;
+        }
+
+        private string GerarTemplate(string[] nomesColunas, string[][] valores)
+        {
+            StringBuilder templateTemp = new StringBuilder();
+
+            for (int i = 0; i < nomesColunas.Length; i++)
+            {
+                templateTemp.Append($"{{{i}, -{ObterTamanhoMaximoColuna(nomesColunas[i], i, valores)}}}");
+
+                if (i != nomesColunas.Length - 1)
+                    templateTemp.Append(" | ");
+            }
+
+            return templateTemp.ToString();
+        }
+
+        private int ObterTamanhoMaximoColuna(string nomeColuna, int posicaoValores, string[][] valores)
+        {
+            int tamanhoMaximo = nomeColuna.Length;
+
+            for (int i = 0; i < valores.Length; i++)
+            {
+                string valorColuna = valores[i][posicaoValores];
+
+                if (valorColuna.Length > tamanhoMaximo)
+                    tamanhoMaximo = valorColuna.Length;
+            }
+
+            return tamanhoMaximo;
         }
 
         private static bool EstaForaDoIntervalo(int min, int max, int n)

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ControleDeTarefas.Dominios.Base;
+using System;
 
 namespace ControleDeTarefas.Dominios
 {

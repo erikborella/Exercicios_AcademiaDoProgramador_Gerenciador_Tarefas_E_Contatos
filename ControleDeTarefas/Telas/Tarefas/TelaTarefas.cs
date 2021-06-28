@@ -66,28 +66,31 @@ namespace ControleDeTarefas.Telas.Tarefas
 
         protected void VisualizarTarefas(Tarefa[] tarefas)
         {
-            string template = "{0, -3} | {1, -20} | {2, -20} | {3, -20} | {4, -10} | {5, -10}";
-
-            Console.WriteLine(template,
-                "id", "Titulo", "Data criação", "Data conclusão", "Progresso", "Prioridade");
-            Console.WriteLine();
-
-            if (tarefas.Length == 0)
+            string[] nomesColunas =
             {
-                Console.WriteLine("Nenhuma tarefa encontrada");
-                return;
-            }
+                "id", 
+                "Titulo", 
+                "Data criação", 
+                "Data conclusão", 
+                "Progresso", 
+                "Prioridade"
+            };
 
-            foreach (Tarefa tarefa in tarefas)
+            Func<Tarefa, object[]> obterValoresLinha = (tarefa) =>
             {
-                Console.WriteLine(template,
+                return new object[]
+                {
                     tarefa.Id,
                     tarefa.Titulo,
                     tarefa.DataCriacao,
                     tarefa.DataConclusao,
                     $"{tarefa.PercentualConcluido}%",
-                    tarefa.Prioridade);
-            }
+                    tarefa.Prioridade
+                };
+            };
+
+            ImprimirRegistros(nomesColunas, tarefas, obterValoresLinha);
+            
         }
 
         protected void VisualizarTodasTarefas()

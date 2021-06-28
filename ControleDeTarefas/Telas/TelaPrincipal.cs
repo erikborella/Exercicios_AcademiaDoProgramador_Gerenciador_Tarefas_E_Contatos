@@ -3,6 +3,7 @@ using ControleDeTarefas.Controladores;
 using ControleDeTarefas.Telas.Base;
 using ControleDeTarefas.Telas.Contatos;
 using ControleDeTarefas.Telas.Tarefas;
+using ControleDeTarefas.Telas.Compromissos;
 
 namespace ControleDeTarefas.Telas
 {
@@ -12,9 +13,15 @@ namespace ControleDeTarefas.Telas
         {
             ControladorTarefa controladorTarefa = new ControladorTarefa();
             ControladorContato controladorContato = new ControladorContato();
+            ControladorCompromisso controladorCompromisso = new ControladorCompromisso(controladorContato);
 
-            AdicionarOpcao(new TelaTarefas(controladorTarefa));
-            AdicionarOpcao(new TelaContatos(controladorContato));
+            TelaTarefas telaTarefas = new TelaTarefas(controladorTarefa);
+            TelaContatos telaContatos = new TelaContatos(controladorContato);
+            TelaCompromissos telaCompromissos = new TelaCompromissos(controladorCompromisso, telaContatos);
+
+            AdicionarOpcao(telaTarefas);
+            AdicionarOpcao(telaContatos);
+            AdicionarOpcao(telaCompromissos);
         }
     }
 }

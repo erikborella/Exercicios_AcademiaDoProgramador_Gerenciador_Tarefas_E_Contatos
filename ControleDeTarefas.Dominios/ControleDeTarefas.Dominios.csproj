@@ -41,8 +41,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Compromisso.cs" />
     <Compile Include="Contato.cs" />
-    <Compile Include="DominioBase.cs" />
+    <Compile Include="base\DominioBase.cs" />
+    <Compile Include="base\DominioBaseRelacionado.cs" />
     <Compile Include="PrioridadeTarefa.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tarefa.cs" />

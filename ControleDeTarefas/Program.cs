@@ -2,6 +2,10 @@
 using ControleDeTarefas.Controladores;
 using ControleDeTarefas.Telas;
 using ControleDeTarefas.Telas.Base;
+using System;
+
+using ControleDeTarefas.Dominios;
+using System.Reflection;
 
 namespace ControleDeTarefas
 {
@@ -9,7 +13,6 @@ namespace ControleDeTarefas
     {
         static void Main(string[] args)
         {
-            new ControladorContato();
             TelaPrincipal telaPrincipal = new TelaPrincipal();
             ExecutarMenu(telaPrincipal);
         }

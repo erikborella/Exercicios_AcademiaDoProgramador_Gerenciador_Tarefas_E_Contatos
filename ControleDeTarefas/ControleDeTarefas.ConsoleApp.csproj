@@ -48,6 +48,14 @@
     <Compile Include="Telas\Base\OpcaoTela.cs" />
     <Compile Include="Telas\Base\OpcaoVoltar.cs" />
     <Compile Include="Telas\Base\TelaBase.cs" />
+    <Compile Include="Telas\Compromissos\TelaCompromissos.cs" />
+    <Compile Include="Telas\Compromissos\TelaCompromissosCriar.cs" />
+    <Compile Include="Telas\Compromissos\TelaCompromissosEditar.cs" />
+    <Compile Include="Telas\Compromissos\TelaCompromissosExcluir.cs" />
+    <Compile Include="Telas\Compromissos\Visualizar\TelaCompromissosVisualizarFuturos.cs" />
+    <Compile Include="Telas\Compromissos\Visualizar\TelaCompromissosVisualizarPassados.cs" />
+    <Compile Include="Telas\Compromissos\Visualizar\TelaCompromissosVisualizar.cs" />
+    <Compile Include="Telas\Compromissos\Visualizar\TelaCompromissosVisualizarTodos.cs" />
     <Compile Include="Telas\Contatos\TelaContatos.cs" />
     <Compile Include="Telas\Contatos\TelaContatosCriar.cs" />
     <Compile Include="Telas\Contatos\TelaContatosEditar.cs" />

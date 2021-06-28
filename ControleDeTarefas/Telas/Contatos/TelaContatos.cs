@@ -48,33 +48,35 @@ namespace ControleDeTarefas.Telas.Contatos
 
         }
 
-        protected void VisualizarContatos(Contato[] contatos)
+        public void VisualizarContatos(Contato[] contatos)
         {
-            string template = "{0, -3} | {1, -15} | {2, -30} | {3, -20} | {4, -15} | {5, -15}";
-
-            Console.WriteLine(template,
-                "Id", "Nome", "Email", "Telefone", "Empresa", "Cargo");
-            Console.WriteLine();
-
-            if (contatos.Length == 0)
+            string[] nomesColunas =
             {
-                Console.WriteLine("Nenhum contato encontrado");
-                return;
-            }
+                "Id", 
+                "Nome", 
+                "Email", 
+                "Telefone", 
+                "Empresa", 
+                "Cargo"
+            };
 
-            foreach (Contato contato in contatos)
+            Func<Contato, object[]> obterValoresLinha = (contato) =>
             {
-                Console.WriteLine(template,
+                return new object[]
+                {
                     contato.Id,
                     contato.Nome,
                     contato.Email,
                     contato.Telefone,
                     contato.Empresa,
-                    contato.Cargo);
-            }
+                    contato.Cargo
+                };
+            };
+
+            ImprimirRegistros(nomesColunas, contatos, obterValoresLinha);
         }
 
-        protected void VisualizarTodosContatos()
+        public void VisualizarTodosContatos()
         {
             Contato[] contatos = controladorContato
                 .BuscarRegistros()
@@ -84,7 +86,7 @@ namespace ControleDeTarefas.Telas.Contatos
             VisualizarContatos(contatos);
         }
 
-        protected int ObterIdContato(Contato[] contatos)
+        public int ObterIdContato(Contato[] contatos)
         {
             VisualizarContatos(contatos);
             Console.WriteLine();
@@ -98,7 +100,7 @@ namespace ControleDeTarefas.Telas.Contatos
                 return id;
         }
 
-        protected int ObterIdContato()
+        public int ObterIdContato()
         {
             Contato[] contatos = controladorContato
                 .BuscarRegistros()

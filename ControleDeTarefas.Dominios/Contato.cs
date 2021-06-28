@@ -1,4 +1,6 @@
-﻿namespace ControleDeTarefas.Dominios
+﻿using ControleDeTarefas.Dominios.Base;
+
+namespace ControleDeTarefas.Dominios
 {
     public class Contato : DominioBase
     {
@@ -25,6 +27,16 @@
             Telefone = telefone;
             Empresa = empresa;
             Cargo = cargo;
+        }
+
+        public Contato()
+        {
+
+        }
+
+        public Contato(int id)
+        {
+            Id = id;
         }
     }
 }
