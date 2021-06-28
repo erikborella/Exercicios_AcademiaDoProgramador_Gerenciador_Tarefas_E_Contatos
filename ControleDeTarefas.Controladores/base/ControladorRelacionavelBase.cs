@@ -175,21 +175,8 @@ namespace ControleDeTarefas.Controladores.Base
             return sucessoNaOperacao;
         }
 
-        private Dictionary<string, object> PegarPropriedades(T registro)
-        {
-            Dictionary<string, object> propriedades = new Dictionary<string, object>();
-            PropertyInfo[] propertyInfo = registro.GetType().GetProperties();
 
-            foreach (PropertyInfo property in propertyInfo)
-            {
-                string nomePropriedade = property.Name.ToLower();
-                object valorPropriedade = property.GetValue(registro);
-
-                propriedades.Add(nomePropriedade, valorPropriedade);
-            }
-
-            return propriedades;
-        }
+        protected abstract Dictionary<string, object> PegarPropriedades(T registro);
 
 
         private string GerarSqlInserir(string[] campos)
@@ -311,6 +298,8 @@ namespace ControleDeTarefas.Controladores.Base
 
             return registro;
         }
+
+
 
         protected abstract string[] PegarCamposInserir();
 

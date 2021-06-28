@@ -1,6 +1,7 @@
 ﻿using ControleDeTarefas.Controladores.Base;
 using ControleDeTarefas.Dominios;
 using System;
+using System.Collections.Generic;
 using System.Data.SqlClient;
 
 namespace ControleDeTarefas.Controladores
@@ -57,6 +58,21 @@ namespace ControleDeTarefas.Controladores
             PrioridadeTarefa prioridade = PegarPrioridade(leitor);
 
             return new Tarefa(id, titulo, dataCriacao, dataConclusao, percentualConcluido, prioridade);
+        }
+
+        protected override Dictionary<string, object> PegarPropriedades(Tarefa registro)
+        {
+            Dictionary<string, object> propriedades = new Dictionary<string, object>();
+
+            propriedades.Add("id", registro.Id);
+            propriedades.Add("titulo", registro.Titulo);
+            propriedades.Add("datacriacao", registro.DataCriacao);
+            propriedades.Add("dataconclusao", registro.DataConclusao);
+            propriedades.Add("percentualconcluido", registro.PercentualConcluido);
+            propriedades.Add("prioridade", registro.Prioridade);
+
+
+            return propriedades;
         }
 
         private void ConcluirTarefa(int id)

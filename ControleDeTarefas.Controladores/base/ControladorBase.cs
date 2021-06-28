@@ -150,21 +150,23 @@ namespace ControleDeTarefas.Controladores.Base
         }
 
 
-        private Dictionary<string, object> PegarPropriedades(T registro)
-        {
-            Dictionary<string, object> propriedades = new Dictionary<string, object>();
-            PropertyInfo[] propertyInfo = registro.GetType().GetProperties();
+        //private Dictionary<string, object> PegarPropriedades(T registro)
+        //{
+        //    Dictionary<string, object> propriedades = new Dictionary<string, object>();
+        //    PropertyInfo[] propertyInfo = registro.GetType().GetProperties();
 
-            foreach (PropertyInfo property in propertyInfo)
-            {
-                string nomePropriedade = property.Name.ToLower();
-                object valorPropriedade = property.GetValue(registro);
+        //    foreach (PropertyInfo property in propertyInfo)
+        //    {
+        //        string nomePropriedade = property.Name.ToLower();
+        //        object valorPropriedade = property.GetValue(registro);
 
-                propriedades.Add(nomePropriedade, valorPropriedade);
-            }
+        //        propriedades.Add(nomePropriedade, valorPropriedade);
+        //    }
 
-            return propriedades;
-        }
+        //    return propriedades;
+        //}
+
+        protected abstract Dictionary<string, object> PegarPropriedades(T registro);
 
         private string[] PegarTodosOsCampos(Dictionary<string, object> propriedades, bool incluirId = true)
         {

@@ -39,6 +39,20 @@ namespace ControleDeTarefas.Controladores
             return new Compromisso(id, assunto, local, data, horaInicial, horaFinal, contato);
         }
 
+        protected override Dictionary<string, object> PegarPropriedades(Compromisso registro)
+        {
+            Dictionary<string, object> propriedades = new Dictionary<string, object>();
+
+            propriedades.Add("id", registro.Id);
+            propriedades.Add("assunto", registro.Assunto);
+            propriedades.Add("local", registro.Local);
+            propriedades.Add("data", registro.Data);
+            propriedades.Add("horainicial", registro.HoraInicial);
+            propriedades.Add("horafinal", registro.HoraFinal);
+
+            return propriedades;
+        }
+
         protected override string[] PegarCamposEditar(out bool incluirDominioEstrangeiro)
         {
             incluirDominioEstrangeiro = true;
