@@ -92,12 +92,7 @@ namespace ControleDeTarefas.Controladores.Base
 
                 if (incluirDominioEstrangeiro)
                 {
-                    object dominioEstrangeiroId;
-
-                    if (registro.DominioEstrangeiro == null)
-                        dominioEstrangeiroId = DBNull.Value;
-                    else
-                        dominioEstrangeiroId = registro.DominioEstrangeiro.Id;
+                    object dominioEstrangeiroId = PegarDominioEstrangeiroId(registro);
 
                     comando.Parameters.AddWithValue(NomeCampoEstrangeiro, dominioEstrangeiroId);
                 }
@@ -155,12 +150,7 @@ namespace ControleDeTarefas.Controladores.Base
                 foreach (string campo in campos)
                     comando.Parameters.AddWithValue(campo, propriedades[campo]);
 
-                object dominioEstrangeiroId;
-
-                if (registro.DominioEstrangeiro == null)
-                    dominioEstrangeiroId = DBNull.Value;
-                else
-                    dominioEstrangeiroId = registro.DominioEstrangeiro.Id;
+                object dominioEstrangeiroId = PegarDominioEstrangeiroId(registro);
 
                 comando.Parameters.AddWithValue(NomeCampoEstrangeiro, dominioEstrangeiroId);
 
@@ -174,9 +164,6 @@ namespace ControleDeTarefas.Controladores.Base
 
             return sucessoNaOperacao;
         }
-
-
-        protected abstract Dictionary<string, object> PegarPropriedades(T registro);
 
 
         private string GerarSqlInserir(string[] campos)
@@ -299,7 +286,19 @@ namespace ControleDeTarefas.Controladores.Base
             return registro;
         }
 
+        private static object PegarDominioEstrangeiroId(T registro)
+        {
+            object dominioEstrangeiroId;
 
+            if (registro.DominioEstrangeiro == null)
+                dominioEstrangeiroId = DBNull.Value;
+            else
+                dominioEstrangeiroId = registro.DominioEstrangeiro.Id;
+            return dominioEstrangeiroId;
+        }
+
+
+        protected abstract Dictionary<string, object> PegarPropriedades(T registro);
 
         protected abstract string[] PegarCamposInserir();
 
