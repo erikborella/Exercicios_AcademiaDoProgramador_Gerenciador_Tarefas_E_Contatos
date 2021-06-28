@@ -47,7 +47,7 @@
     <Compile Include="base\ControladorRelacionavelBase.cs" />
     <Compile Include="ControladorTarefa.cs" />
     <Compile Include="DBConexao.cs" />
-    <Compile Include="IControlavel.cs" />
+    <Compile Include="base\IControlavel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

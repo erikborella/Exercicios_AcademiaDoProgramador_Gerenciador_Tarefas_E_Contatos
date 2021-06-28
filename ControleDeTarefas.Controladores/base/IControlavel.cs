@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ControleDeTarefas.Controladores
+namespace ControleDeTarefas.Controladores.Base
 {
     public interface IControlavel<T>
     {
