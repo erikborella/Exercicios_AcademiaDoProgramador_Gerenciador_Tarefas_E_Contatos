@@ -45,9 +45,18 @@
     <Compile Include="Contato.cs" />
     <Compile Include="base\DominioBase.cs" />
     <Compile Include="base\DominioBaseRelacionado.cs" />
+    <Compile Include="Modelos\CompromissoModelo.cs" />
+    <Compile Include="Modelos\ContatoModelo.cs" />
+    <Compile Include="Modelos\TarefaModelo.cs" />
     <Compile Include="PrioridadeTarefa.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tarefa.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ControleDeTarefas.Query\ControleDeTarefas.Query.csproj">
+      <Project>{f3c0d3e4-e421-4669-a9ca-f56a725ee089}</Project>
+      <Name>ControleDeTarefas.Query</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

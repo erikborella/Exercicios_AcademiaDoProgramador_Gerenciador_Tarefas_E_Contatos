@@ -13,7 +13,7 @@ namespace ControleDeTarefas.Telas
         {
             ControladorTarefa controladorTarefa = new ControladorTarefa();
             ControladorContato controladorContato = new ControladorContato();
-            ControladorCompromisso controladorCompromisso = new ControladorCompromisso(controladorContato);
+            ControladorCompromisso controladorCompromisso = new ControladorCompromisso();
 
             TelaTarefas telaTarefas = new TelaTarefas(controladorTarefa);
             TelaContatos telaContatos = new TelaContatos(controladorContato);

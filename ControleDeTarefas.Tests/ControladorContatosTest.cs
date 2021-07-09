@@ -17,8 +17,8 @@ namespace ControleDeTarefas.Tests
         [TestMethod]
         public void DeveInserirNovoContato()
         {
-            Contato novoContato =
-                new Contato("TESTE", "teste@test.com", "(11) 9 1111-1111", "testEmp", "testesr");
+            ContatoModelo novoContato =
+                new ContatoModelo("TESTE", "teste@test.com", "(11) 9 1111-1111", "testEmp", "testesr");
 
             bool conseguiuInserir = controladorContato.Inserir(novoContato);
 
@@ -29,16 +29,16 @@ namespace ControleDeTarefas.Tests
         [TestMethod]
         public void DeveEditarContato()
         {
-            Contato contato =
-                new Contato("TESTE", "teste@test.com", "(11) 9 1111-1111", "testEmp", "testesr");
+            ContatoModelo contato =
+                new ContatoModelo("TESTE", "teste@test.com", "(11) 9 1111-1111", "testEmp", "testesr");
             controladorContato.Inserir(contato);
 
-            Contato novoContato =
-                new Contato("editado", "editado@edit.com", "(12) 9 1234-1234", "editEmp", "editer");
+            ContatoModelo novoContato =
+                new ContatoModelo("editado", "editado@edit.com", "(12) 9 1234-1234", "editEmp", "editer");
             novoContato.Id = contato.Id;
 
             bool conseguiuEditar = controladorContato.Editar(novoContato);
-            Contato contatoRecuperado = controladorContato.BuscarRegistroPorId(contato.Id);
+            ContatoModelo contatoRecuperado = controladorContato.BuscarRegistroPorId(contato.Id);
 
             Assert.IsTrue(conseguiuEditar);
 
@@ -53,13 +53,13 @@ namespace ControleDeTarefas.Tests
         [TestMethod]
         public void DeveExcluirContato()
         {
-            Contato contato =
-                new Contato("TESTE", "teste@test.com", "(11) 9 1111-1111", "testEmp", "testesr");
+            ContatoModelo contato =
+                new ContatoModelo("TESTE", "teste@test.com", "(11) 9 1111-1111", "testEmp", "testesr");
             controladorContato.Inserir(contato);
 
             bool conseguiuExcluir = controladorContato.Excluir(contato.Id);
 
-            Contato contatoRecuperado = controladorContato.BuscarRegistroPorId(contato.Id);
+            ContatoModelo contatoRecuperado = controladorContato.BuscarRegistroPorId(contato.Id);
 
             Assert.IsTrue(conseguiuExcluir);
             Assert.IsNull(contatoRecuperado);
@@ -68,14 +68,14 @@ namespace ControleDeTarefas.Tests
         [TestMethod]
         public void DeveBuscarContatoPorId()
         {
-            Contato contato =
-                new Contato("TESTE", "teste@test.com", "(11) 9 1111-1111", "testEmp", "testesr");
+            ContatoModelo contato =
+                new ContatoModelo("TESTE", "teste@test.com", "(11) 9 1111-1111", "testEmp", "testesr");
 
             controladorContato.Inserir(contato);
 
             int id = contato.Id;
 
-            Contato contatoRecuperado = controladorContato.BuscarRegistroPorId(id);
+            ContatoModelo contatoRecuperado = controladorContato.BuscarRegistroPorId(id);
 
             Assert.AreEqual(contato.Id, contatoRecuperado.Id);
             Assert.AreEqual(contato.Nome, contatoRecuperado.Nome);
@@ -88,12 +88,12 @@ namespace ControleDeTarefas.Tests
         [TestMethod]
         public void DeveBuscarTodosContatos()
         {
-            Contato contato =
-                new Contato("TESTE", "teste@test.com", "(11) 9 1111-1111", "testEmp", "testesr");
+            ContatoModelo contato =
+                new ContatoModelo("TESTE", "teste@test.com", "(11) 9 1111-1111", "testEmp", "testesr");
 
             controladorContato.Inserir(contato);
 
-            Contato[] contatosRecuperados = controladorContato.BuscarRegistros();
+            ContatoModelo[] contatosRecuperados = controladorContato.BuscarRegistros();
 
             Assert.IsTrue(contatosRecuperados.Length >= 1);
         }

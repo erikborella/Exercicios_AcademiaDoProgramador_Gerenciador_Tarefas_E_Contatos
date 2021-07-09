@@ -1,126 +1,118 @@
-﻿using ControleDeTarefas.Controladores.Base;
-using ControleDeTarefas.Dominios;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using ControleDeTarefas.Dominios;
+using ControleDeTarefas.Query;
 
 namespace ControleDeTarefas.Controladores
 {
-    public class ControladorTarefa : ControladorBase<Tarefa>
+    public class ControladorTarefa
     {
-        public ControladorTarefa() : base("TBTarefa")
+        public bool Inserir(TarefaModelo tarefa)
         {
+            int id = tarefa
+                .SQL()
+                .Inserir()
+                .TodosOsCampos()
+                .Executar();
+
+            tarefa.Id = id;
+
+            return id != 0;
+        }
+
+        public bool Editar(TarefaModelo tarefa)
+        {
+            bool sucesso = tarefa
+                .SQL()
+                .Atualizar()
+                .Campos(tarefa.campoTitulo, tarefa.campoPrioridade)
+                .NoMesmoId()
+                .Executar();
+
+            return sucesso;
+        }
+
+        public bool Excluir(int id)
+        {
+            TarefaModelo modelo = new TarefaModelo();
+
+            bool sucesso = modelo
+                .SQL()
+                .Deletar()
+                .Onde(modelo.campoId).EhIgualA(id)
+                .Executar();
+
+            return sucesso;
+        }
+
+        public TarefaModelo BuscarRegistroPorId(int id)
+        {
+            TarefaModelo modelo = new TarefaModelo();
+
+            TarefaModelo[] modelos = modelo
+                .SQL()
+                .Selecionar()
+                .TodosOsCampos()
+                .Onde(modelo.campoId).EhIgualA(id)
+                .Converter<TarefaModelo>();
+
+            if (modelos.Length == 0)
+                return null;
+            else
+                return modelos[0];
+        }
+
+        public TarefaModelo[] BuscarRegistros()
+        {
+            TarefaModelo modelo = new TarefaModelo();
+
+            TarefaModelo[] modelos = modelo
+                .SQL()
+                .Selecionar()
+                .TodosOsCampos()
+                .Converter<TarefaModelo>();
+
+            return modelos;
         }
 
         public bool AtualizarPercentualConcluido(int id, int percentual)
         {
-            string[] campos = { "percentualconcluido" };
-
             if (percentual == 100)
                 ConcluirTarefa(id);
 
-            Tarefa temp = new Tarefa(id, percentual);
+            TarefaModelo modelo = new TarefaModelo();
 
-            return Editar(temp, campos);
-        }
+            modelo.PercentualConcluido = percentual;
+            modelo.Id = id;
 
-        protected override string[] PegarCamposEditar()
-        {
-            string[] campos =
-            {
-                "titulo",
-                "prioridade"
-            };
+            bool sucesso = modelo
+                .SQL()
+                .Atualizar()
+                .Campos(modelo.campoPercentualConcluido)
+                .NoMesmoId()
+                .Executar();
 
-            return campos;
-        }
-
-        protected override string[] PegarCamposInserir()
-        {
-            string[] campos =
-            {
-                "titulo",
-                "datacriacao",
-                "percentualconcluido",
-                "prioridade"
-            };
-
-            return campos;
-        }
-
-        protected override Tarefa LerRegistro(SqlDataReader leitor)
-        {
-            int id = Convert.ToInt32(leitor["Id"]);
-            string titulo = Convert.ToString(leitor["titulo"]);
-            DateTime dataCriacao = Convert.ToDateTime(leitor["dataCriacao"]);
-            DateTime? dataConclusao = PegarDataConclusao(leitor);
-            int percentualConcluido = Convert.ToInt32(leitor["percentualConcluido"]);
-            PrioridadeTarefa prioridade = PegarPrioridade(leitor);
-
-            return new Tarefa(id, titulo, dataCriacao, dataConclusao, percentualConcluido, prioridade);
-        }
-
-        protected override Dictionary<string, object> PegarPropriedades(Tarefa registro)
-        {
-            Dictionary<string, object> propriedades = new Dictionary<string, object>();
-
-            propriedades.Add("id", registro.Id);
-            propriedades.Add("titulo", registro.Titulo);
-            propriedades.Add("datacriacao", registro.DataCriacao);
-            propriedades.Add("dataconclusao", registro.DataConclusao);
-            propriedades.Add("percentualconcluido", registro.PercentualConcluido);
-            propriedades.Add("prioridade", registro.Prioridade);
-
-
-            return propriedades;
+            return sucesso;
         }
 
         private void ConcluirTarefa(int id)
         {
             DateTime dataConclusao = DateTime.Now;
-            string[] campos = { "dataconclusao" };
 
-            Tarefa temp = new Tarefa(id, dataConclusao);
+            TarefaModelo modelo = new TarefaModelo();
 
-            Editar(temp, campos);
-        }
+            modelo.Id = id;
+            modelo.DataConclusao = dataConclusao;
 
-        private PrioridadeTarefa PegarPrioridade(SqlDataReader leitor)
-        {
-            int nPrioridade = Convert.ToInt32(leitor["prioridade"]);
-
-            PrioridadeTarefa prioridade;
-
-            switch (nPrioridade)
-            {
-                case 1:
-                    prioridade = PrioridadeTarefa.BAIXA;
-                    break;
-
-                case 2:
-                    prioridade = PrioridadeTarefa.MEDIA;
-                    break;
-
-                case 3:
-                    prioridade = PrioridadeTarefa.ALTA;
-                    break;
-
-                default:
-                    prioridade = PrioridadeTarefa.BAIXA;
-                    break;
-            }
-
-            return prioridade;
-        }
-
-        private DateTime? PegarDataConclusao(SqlDataReader leitor)
-        {
-            object dataConclusao = leitor["dataConclusao"];
-
-            if (dataConclusao == DBNull.Value)
-                return null;
-            else
-                return Convert.ToDateTime(dataConclusao);
+            modelo
+                .SQL()
+                .Atualizar()
+                .Campos(modelo.campoDataConclusao)
+                .NoMesmoId()
+                .Executar();
         }
     }
 }

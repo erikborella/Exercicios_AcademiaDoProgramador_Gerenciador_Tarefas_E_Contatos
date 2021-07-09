@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ControleDeTarefas.Modelos
+namespace ControleDeTarefas.Query.Geradores.Shared
 {
-    public class Class1
+    public abstract class AtributoGeravel
     {
+        abstract internal string Gerar();
     }
 }

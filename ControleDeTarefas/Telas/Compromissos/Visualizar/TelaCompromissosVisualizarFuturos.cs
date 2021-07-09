@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
-using ControleDeTarefas.Controladores;
 using ControleDeTarefas.Telas.Base;
 using ControleDeTarefas.Telas.Contatos;
 
 using ControleDeTarefas.Dominios;
+using ControleDeTarefas.Controladores;
 
 namespace ControleDeTarefas.Telas.Compromissos.Visualizar
 {
@@ -26,7 +25,7 @@ namespace ControleDeTarefas.Telas.Compromissos.Visualizar
 
             DateTime diaAVisualizar = LerDiaAVisualizar();
 
-            Compromisso[] compromissos = ObterCompromissosDoDia(diaAVisualizar);
+            CompromissoModelo[] compromissos = ObterCompromissosDoDia(diaAVisualizar);
 
             Console.Clear();
 
@@ -57,7 +56,7 @@ namespace ControleDeTarefas.Telas.Compromissos.Visualizar
             return diaAVisualizar;
         }
 
-        private Compromisso[] ObterCompromissosDoDia(DateTime diaAVisualizar)
+        private CompromissoModelo[] ObterCompromissosDoDia(DateTime diaAVisualizar)
         {
             return controladorCompromisso.BuscarRegistros()
                             .Where(compromisso => compromisso.Data == diaAVisualizar)

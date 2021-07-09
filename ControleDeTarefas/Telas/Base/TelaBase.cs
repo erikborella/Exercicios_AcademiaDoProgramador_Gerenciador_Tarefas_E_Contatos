@@ -3,6 +3,8 @@ using System.Text;
 using System.Linq;
 using System.Collections.Generic;
 
+using ControleDeTarefas.Dominios;
+
 namespace ControleDeTarefas.Telas.Base
 {
     abstract class TelaBase
@@ -200,7 +202,8 @@ namespace ControleDeTarefas.Telas.Base
         }
 
 
-        private string[][] ExtrairValoresLinhas<T>(T[] registros, Func<T, object[]> obterValoresLinha, int nColunas)
+        private string[][] ExtrairValoresLinhas<T>(T[] registros,
+            Func<T, object[]> obterValoresLinha, int nColunas)
         {
             string[][] valores = new string[registros.Length][];
 

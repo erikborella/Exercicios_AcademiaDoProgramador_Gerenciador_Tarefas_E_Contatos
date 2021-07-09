@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
-using ControleDeTarefas.Controladores;
 using ControleDeTarefas.Telas.Base;
 using ControleDeTarefas.Telas.Contatos;
 using ControleDeTarefas.Dominios;
+using ControleDeTarefas.Controladores;
 
 namespace ControleDeTarefas.Telas.Compromissos
 {
@@ -31,7 +30,7 @@ namespace ControleDeTarefas.Telas.Compromissos
                 return null;
             }
 
-            Compromisso novoCompromisso = ObterCompromisso();
+            CompromissoModelo novoCompromisso = ObterCompromisso();
             novoCompromisso.Id = id;
 
             bool conseguiuEditar = controladorCompromisso.Editar(novoCompromisso);

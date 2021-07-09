@@ -24,7 +24,7 @@ namespace ControleDeTarefas.Telas.Tarefas
                 return null;
             }
 
-            Tarefa novaTarefa = ObterTarefa();
+            TarefaModelo novaTarefa = ObterTarefa();
             novaTarefa.Id = id;
 
             bool conseguiuEditar = controladorTarefa.Editar(novaTarefa);

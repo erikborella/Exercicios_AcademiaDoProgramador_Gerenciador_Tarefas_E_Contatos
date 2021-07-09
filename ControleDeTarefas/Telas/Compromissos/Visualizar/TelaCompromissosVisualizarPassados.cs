@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 using ControleDeTarefas.Dominios;
 using ControleDeTarefas.Telas.Contatos;
-using ControleDeTarefas.Controladores;
 using ControleDeTarefas.Telas.Base;
+using ControleDeTarefas.Controladores;
 
 namespace ControleDeTarefas.Telas.Compromissos.Visualizar
 {
@@ -21,7 +21,7 @@ namespace ControleDeTarefas.Telas.Compromissos.Visualizar
 
         public override TelaBase Executar()
         {
-            Compromisso[] compromissosPassados = ObterCompromissosPassados();
+            CompromissoModelo[] compromissosPassados = ObterCompromissosPassados();
 
             Console.Clear();
 
@@ -31,11 +31,11 @@ namespace ControleDeTarefas.Telas.Compromissos.Visualizar
             return null;
         }
 
-        private Compromisso[] ObterCompromissosPassados()
+        private CompromissoModelo[] ObterCompromissosPassados()
         {
             DateTime dataAgora = DateTime.Now;
 
-            Compromisso[] compromissosPassados = controladorCompromisso.BuscarRegistros()
+            CompromissoModelo[] compromissosPassados = controladorCompromisso.BuscarRegistros()
                 .Where(compromisso => compromisso.Data < dataAgora)
                 .ToArray();
             return compromissosPassados;

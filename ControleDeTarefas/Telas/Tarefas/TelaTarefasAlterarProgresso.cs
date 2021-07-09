@@ -17,7 +17,7 @@ namespace ControleDeTarefas.Telas.Tarefas
         {
             Console.Clear();
 
-            Tarefa[] tarefasPendentes = controladorTarefa
+            TarefaModelo[] tarefasPendentes = controladorTarefa
                 .BuscarRegistros()
                 .Where(tarefa => tarefa.PercentualConcluido != 100)
                 .OrderByDescending(tarefa => tarefa.Prioridade)

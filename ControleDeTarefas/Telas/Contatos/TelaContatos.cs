@@ -26,7 +26,7 @@ namespace ControleDeTarefas.Telas.Contatos
             this.controladorContato = controladorContato;
         }
 
-        protected Contato ObterContato()
+        protected ContatoModelo ObterContato()
         {
             string nome, email, telefone, empresa, cargo;
 
@@ -44,11 +44,11 @@ namespace ControleDeTarefas.Telas.Contatos
             ImprimirMensagem("Digite o cargo: ", TipoMensagem.INPUT);
             cargo = LerString();
 
-            return new Contato(nome, email, telefone, empresa, cargo);
+            return new ContatoModelo(nome, email, telefone, empresa, cargo);
 
         }
 
-        public void VisualizarContatos(Contato[] contatos)
+        public void VisualizarContatos(ContatoModelo[] contatos)
         {
             string[] nomesColunas =
             {
@@ -60,7 +60,7 @@ namespace ControleDeTarefas.Telas.Contatos
                 "Cargo"
             };
 
-            Func<Contato, object[]> obterValoresLinha = (contato) =>
+            Func<ContatoModelo, object[]> obterValoresLinha = (contato) =>
             {
                 return new object[]
                 {
@@ -78,7 +78,7 @@ namespace ControleDeTarefas.Telas.Contatos
 
         public void VisualizarTodosContatos()
         {
-            Contato[] contatos = controladorContato
+            ContatoModelo[] contatos = controladorContato
                 .BuscarRegistros()
                 .OrderBy(contato => contato.Cargo.ToLower())
                 .ToArray();
@@ -86,7 +86,7 @@ namespace ControleDeTarefas.Telas.Contatos
             VisualizarContatos(contatos);
         }
 
-        public int ObterIdContato(Contato[] contatos)
+        public int ObterIdContato(ContatoModelo[] contatos)
         {
             VisualizarContatos(contatos);
             Console.WriteLine();
@@ -102,7 +102,7 @@ namespace ControleDeTarefas.Telas.Contatos
 
         public int ObterIdContato()
         {
-            Contato[] contatos = controladorContato
+            ContatoModelo[] contatos = controladorContato
                 .BuscarRegistros()
                 .OrderBy(contato => contato.Cargo.ToLower())
                 .ToArray();
@@ -110,7 +110,7 @@ namespace ControleDeTarefas.Telas.Contatos
             return ObterIdContato(contatos);
         }
 
-        private bool ExisteContatoComId(Contato[] contatos, int id)
+        private bool ExisteContatoComId(ContatoModelo[] contatos, int id)
         {
             return contatos.FirstOrDefault(contato => contato.Id == id) != null;
         }

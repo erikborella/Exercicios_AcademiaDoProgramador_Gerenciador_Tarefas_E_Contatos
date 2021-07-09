@@ -1,82 +1,91 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ControleDeTarefas.Controladores.Base;
+
 using ControleDeTarefas.Dominios;
+using ControleDeTarefas.Query;
 
 namespace ControleDeTarefas.Controladores
 {
-    public class ControladorCompromisso : ControladorRelacionavelBase<Compromisso, Contato>
+    public class ControladorCompromisso
     {
-        public ControladorCompromisso(ControladorContato controladorContato): base(controladorContato)
+        public bool Inserir(CompromissoModelo compromisso)
         {
+            int id = compromisso
+                .SQL()
+                .Inserir()
+                .TodosOsCampos()
+                .Executar();
+
+            compromisso.Id = id;
+
+            return id != 0;
         }
 
-        public override string NomeTabela => "TBCompromisso";
-
-        public override string NomeCampoEstrangeiro => "contato_id";
-
-        protected override Compromisso LerRegistro(SqlDataReader leitor)
+        public bool Editar(CompromissoModelo compromisso)
         {
-            int id = Convert.ToInt32(leitor["Id"]);
-            string assunto = Convert.ToString(leitor["assunto"]);
-            string local = Convert.ToString(leitor["local"]);
-            DateTime data = Convert.ToDateTime(leitor["data"]);
-            TimeSpan horaInicial = TimeSpan.Parse(leitor["horaInicial"].ToString());
-            TimeSpan horaFinal = TimeSpan.Parse(leitor["horaFinal"].ToString());
+            bool sucesso = compromisso
+                .SQL()
+                .Atualizar()
+                .TodosOsCampos()
+                .NoMesmoId()
+                .Executar();
 
-            object idContatoTemp = leitor["contato_id"];
-            Contato contato = null;
+            return sucesso;
+        }
 
-            if (idContatoTemp != DBNull.Value)
+        public bool Excluir(int id)
+        {
+            CompromissoModelo modelo = new CompromissoModelo();
+
+            bool sucesso = modelo
+                .SQL()
+                .Deletar()
+                .Onde(modelo.campoId).EhIgualA(id)
+                .Executar();
+
+
+            return sucesso;
+        }
+
+        public CompromissoModelo BuscarRegistroPorId(int id)
+        {
+            CompromissoModelo modelo = new CompromissoModelo()
             {
-                contato = new Contato(Convert.ToInt32(idContatoTemp));
-            }
-
-            return new Compromisso(id, assunto, local, data, horaInicial, horaFinal, contato);
-        }
-
-        protected override Dictionary<string, object> PegarPropriedades(Compromisso registro)
-        {
-            Dictionary<string, object> propriedades = new Dictionary<string, object>();
-
-            propriedades.Add("id", registro.Id);
-            propriedades.Add("assunto", registro.Assunto);
-            propriedades.Add("local", registro.Local);
-            propriedades.Add("data", registro.Data);
-            propriedades.Add("horainicial", registro.HoraInicial);
-            propriedades.Add("horafinal", registro.HoraFinal);
-
-            return propriedades;
-        }
-
-        protected override string[] PegarCamposEditar(out bool incluirDominioEstrangeiro)
-        {
-            incluirDominioEstrangeiro = true;
-
-            return new string[]
-            {
-                "assunto",
-                "local",
-                "data",
-                "horainicial",
-                "horafinal",
+                Contato = new ContatoModelo()
             };
+
+            CompromissoModelo[] modelos = modelo
+                .SQL()
+                .Selecionar()
+                .TodosOsCampos()
+                .JunteCom(modelo.campoContato).JuncaoEsquerda()
+                .Onde(modelo.campoId).EhIgualA(id)
+                .ConverterRecursivamente<CompromissoModelo, ContatoModelo>();
+
+            if (modelos.Length == 0)
+                return null;
+            else
+                return modelos[0];
         }
 
-        protected override string[] PegarCamposInserir()
+        public CompromissoModelo[] BuscarRegistros()
         {
-            return new string[]
+            CompromissoModelo modelo = new CompromissoModelo()
             {
-                "assunto",
-                "local",
-                "data",
-                "horainicial",
-                "horafinal",
+                Contato = new ContatoModelo()
             };
+
+            CompromissoModelo[] modelos = modelo
+                .SQL()
+                .Selecionar()
+                .TodosOsCampos()
+                .JunteCom(modelo.campoContato).JuncaoEsquerda()
+                .ConverterRecursivamente<CompromissoModelo, ContatoModelo>();
+
+            return modelos;
         }
     }
 }

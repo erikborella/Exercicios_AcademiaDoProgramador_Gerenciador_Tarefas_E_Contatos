@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
-using ControleDeTarefas.Controladores;
 using ControleDeTarefas.Telas.Base;
 using ControleDeTarefas.Telas.Contatos;
 using ControleDeTarefas.Dominios;
+using ControleDeTarefas.Controladores;
 
 namespace ControleDeTarefas.Telas.Compromissos
 {
@@ -23,7 +22,7 @@ namespace ControleDeTarefas.Telas.Compromissos
         {
             Console.Clear();
 
-            Compromisso novoCompromisso = ObterCompromisso();
+            CompromissoModelo novoCompromisso = ObterCompromisso();
 
             bool conseguiuCriar = controladorCompromisso.Inserir(novoCompromisso);
 

@@ -5,10 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 
 using ControleDeTarefas.Telas.Base;
-using ControleDeTarefas.Controladores;
 using ControleDeTarefas.Telas.Contatos;
 using ControleDeTarefas.Telas.Compromissos.Visualizar;
 using ControleDeTarefas.Dominios;
+using ControleDeTarefas.Controladores;
 
 namespace ControleDeTarefas.Telas.Compromissos
 {
@@ -37,7 +37,7 @@ namespace ControleDeTarefas.Telas.Compromissos
             this.telaContatos = telaContatos;
         }
 
-        protected Compromisso ObterCompromisso()
+        protected CompromissoModelo ObterCompromisso()
         {
             string assunto, local;
             DateTime data;
@@ -61,15 +61,15 @@ namespace ControleDeTarefas.Telas.Compromissos
 
             contatoId = ObterContatoId();
 
-            Contato contatoTemp = null;
+            ContatoModelo contatoTemp = null;
 
             if (contatoId != -1)
-                contatoTemp = new Contato(contatoId);
+                contatoTemp = new ContatoModelo(contatoId);
 
-            return new Compromisso(assunto, local, data, horaInicial, horaFinal, contatoTemp);
+            return new CompromissoModelo(assunto, local, data, horaInicial, horaFinal, contatoTemp);
         }
 
-        public void VisualizarCompromissos(Compromisso[] compromissos)
+        public void VisualizarCompromissos(CompromissoModelo[] compromissos)
         {
             string[] nomesColunas =
             {
@@ -83,7 +83,7 @@ namespace ControleDeTarefas.Telas.Compromissos
                 "Telefone contato"
             };
 
-            Func<Compromisso, object[]> obterValoresLinha = (compromisso) =>
+            Func<CompromissoModelo, object[]> obterValoresLinha = (compromisso) =>
             {
                 return new object[]
                 {
@@ -103,14 +103,14 @@ namespace ControleDeTarefas.Telas.Compromissos
 
         public void VisualizarTodosCompromissos()
         {
-            Compromisso[] compromissos = controladorCompromisso
+            CompromissoModelo[] compromissos = controladorCompromisso
                 .BuscarRegistros()
                 .ToArray();
 
             VisualizarCompromissos(compromissos);
         }
 
-        public int ObterIdCompromisso(Compromisso[] compromissos)
+        public int ObterIdCompromisso(CompromissoModelo[] compromissos)
         {
             VisualizarCompromissos(compromissos);
             Console.WriteLine();
@@ -126,7 +126,7 @@ namespace ControleDeTarefas.Telas.Compromissos
 
         public int ObterIdCompromisso()
         {
-            Compromisso[] compromissos = controladorCompromisso
+            CompromissoModelo[] compromissos = controladorCompromisso
                 .BuscarRegistros()
                 .ToArray();
 
@@ -146,7 +146,7 @@ namespace ControleDeTarefas.Telas.Compromissos
                     continue;
                 }
 
-                Compromisso conflitante = CompromissoConflitante(data, hora);
+                CompromissoModelo conflitante = CompromissoConflitante(data, hora);
 
                 if (conflitante == null)
                     return hora;
@@ -162,7 +162,7 @@ namespace ControleDeTarefas.Telas.Compromissos
             }
         }
 
-        private bool ExisteCompromissoComId(Compromisso[] compromissos, int id)
+        private bool ExisteCompromissoComId(CompromissoModelo[] compromissos, int id)
         {
             return compromissos.FirstOrDefault(compromisso => compromisso.Id == id) != null;
         }
@@ -212,12 +212,12 @@ namespace ControleDeTarefas.Telas.Compromissos
             }
         }
 
-        private Compromisso CompromissoConflitante(DateTime data, 
+        private CompromissoModelo CompromissoConflitante(DateTime data, 
             TimeSpan hora)
         {
-            Compromisso[] compromissos = controladorCompromisso.BuscarRegistros();
+            CompromissoModelo[] compromissos = controladorCompromisso.BuscarRegistros();
 
-            Compromisso conflitante = compromissos.FirstOrDefault(compromisso =>
+            CompromissoModelo conflitante = compromissos.FirstOrDefault(compromisso =>
             {
                 if (compromisso.Data != data)
                     return false;

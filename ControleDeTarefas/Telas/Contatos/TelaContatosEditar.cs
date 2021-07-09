@@ -25,7 +25,7 @@ namespace ControleDeTarefas.Telas.Contatos
                 return null;
             }
 
-            Contato novoContato = ObterContato();
+            ContatoModelo novoContato = ObterContato();
             novoContato.Id = id;
 
             bool conseguiuEditar = controladorContato.Editar(novoContato);

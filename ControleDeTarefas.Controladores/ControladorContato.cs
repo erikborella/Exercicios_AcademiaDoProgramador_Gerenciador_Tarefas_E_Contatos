@@ -1,51 +1,82 @@
-﻿using ControleDeTarefas.Controladores.Base;
-using ControleDeTarefas.Dominios;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+using ControleDeTarefas.Query;
+using ControleDeTarefas.Dominios;
 
 namespace ControleDeTarefas.Controladores
 {
-    public class ControladorContato : ControladorBase<Contato>
+    public class ControladorContato
     {
-        public ControladorContato() : base("TBContato")
+        public bool Inserir(ContatoModelo contato)
         {
+            int id = contato
+                .SQL()
+                .Inserir()
+                .TodosOsCampos()
+                .Executar();
+
+            contato.Id = id;
+
+            return id != 0;
         }
 
-        protected override string[] PegarCamposEditar()
+        public bool Editar(ContatoModelo contato)
         {
-            return new string[0];
+            bool sucesso = contato
+                .SQL()
+                .Atualizar()
+                .TodosOsCampos()
+                .NoMesmoId()
+                .Executar();
+
+            return sucesso;
         }
 
-        protected override string[] PegarCamposInserir()
+        public bool Excluir(int id)
         {
-            return new string[0];
+            ContatoModelo modelo = new ContatoModelo();
+
+            bool sucesso = modelo
+                .SQL()
+                .Deletar()
+                .Onde(modelo.campoId).EhIgualA(id)
+                .Executar();
+
+            return sucesso;
         }
 
-        protected override Contato LerRegistro(SqlDataReader leitor)
+        public ContatoModelo BuscarRegistroPorId(int id)
         {
-            int id = Convert.ToInt32(leitor["Id"]);
-            string nome = Convert.ToString(leitor["nome"]);
-            string email = Convert.ToString(leitor["email"]);
-            string telefone = Convert.ToString(leitor["telefone"]);
-            string empresa = Convert.ToString(leitor["empresa"]);
-            string cargo = Convert.ToString(leitor["cargo"]);
+            ContatoModelo modelo = new ContatoModelo();
 
-            return new Contato(id, nome, email, telefone, empresa, cargo);
+            ContatoModelo[] modelos = modelo
+                .SQL()
+                .Selecionar()
+                .TodosOsCampos()
+                .Onde(modelo.campoId).EhIgualA(id)
+                .Converter<ContatoModelo>();
+
+            if (modelos.Length == 0)
+                return null;
+            else
+                return modelos[0];
         }
 
-        protected override Dictionary<string, object> PegarPropriedades(Contato registro)
+        public ContatoModelo[] BuscarRegistros()
         {
-            Dictionary<string, object> propriedades = new Dictionary<string, object>();
+            ContatoModelo modelo = new ContatoModelo();
 
-            propriedades.Add("id", registro.Id);
-            propriedades.Add("nome", registro.Nome);
-            propriedades.Add("email", registro.Email);
-            propriedades.Add("telefone", registro.Telefone);
-            propriedades.Add("empresa", registro.Empresa);
-            propriedades.Add("cargo", registro.Cargo);
+            ContatoModelo[] modelos = modelo
+                .SQL()
+                .Selecionar()
+                .TodosOsCampos()
+                .Converter<ContatoModelo>();
 
-            return propriedades;
+            return modelos;
         }
     }
 }

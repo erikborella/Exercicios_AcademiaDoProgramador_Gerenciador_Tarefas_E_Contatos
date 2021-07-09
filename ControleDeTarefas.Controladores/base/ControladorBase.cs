@@ -6,6 +6,10 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 
+using System.Data.Common;
+
+using System.Data;
+
 namespace ControleDeTarefas.Controladores.Base
 {
     public abstract class ControladorBase<T> : IControlavel<T> where T : DominioBase
@@ -35,11 +39,17 @@ namespace ControleDeTarefas.Controladores.Base
 
                 string sql = GerarSqlInserir(campos);
 
-                SqlCommand comando = new SqlCommand(sql, conexao);
+                IDbCommand comando = dbConexao.CriarSqlCommand(sql, conexao);
+
+                //SqlCommand comando = new SqlCommand(sql, conexao);
 
                 foreach (string campo in campos)
                 {
-                    comando.Parameters.AddWithValue(campo, propriedades[campo]);
+                    var parameter = comando.CreateParameter();
+                    parameter.ParameterName = campo;
+                    parameter.Value = propriedades[campo];
+
+                    comando.Parameters.Add(parameter);
                 }
 
                 int id = Convert.ToInt32(comando.ExecuteScalar());
@@ -68,14 +78,17 @@ namespace ControleDeTarefas.Controladores.Base
 
                 string sql = GerarSqlEditar(campos);
 
-                SqlCommand comando = new SqlCommand(sql, conexao);
+                //SqlCommand comando = new SqlCommand(sql, conexao);
+
+                IDbCommand comando = dbConexao.CriarSqlCommand(sql, conexao);
+
 
                 foreach (string campo in campos)
                 {
-                    comando.Parameters.AddWithValue(campo, propriedades[campo]);
+                    comando.Parameters.Add(CriarParametro(campo, propriedades[campo], comando));
                 }
 
-                comando.Parameters.AddWithValue("id", propriedades["id"]);
+                comando.Parameters.Add(CriarParametro("id", propriedades["id"], comando));
 
                 int n = comando.ExecuteNonQuery();
 
@@ -89,14 +102,14 @@ namespace ControleDeTarefas.Controladores.Base
         public bool Excluir(int id)
         {
             bool sucessoNaOperacao = false;
-
+           
             dbConexao.ComConexaoAberta(conexao =>
             {
                 string sql = GerarSqlExcluir();
 
-                SqlCommand comando = new SqlCommand(sql, conexao);
+                IDbCommand comando = dbConexao.CriarSqlCommand(sql, conexao);
 
-                comando.Parameters.AddWithValue("id", id);
+                comando.Parameters.Add(CriarParametro("id", id, comando));
 
                 int n = comando.ExecuteNonQuery();
 
@@ -114,16 +127,18 @@ namespace ControleDeTarefas.Controladores.Base
             {
                 string sql = GerarSqlBuscarPorId();
 
-                SqlCommand comando = new SqlCommand(sql, conexao);
+                IDbCommand comando = dbConexao.CriarSqlCommand(sql, conexao);
 
-                comando.Parameters.AddWithValue("id", id);
 
-                SqlDataReader leitor = comando.ExecuteReader();
+                comando.Parameters.Add(CriarParametro("id", id, comando));
 
-                if (leitor.Read() == false)
-                    return;
+                using (var leitor = comando.ExecuteReader())
+                {
+                    if (leitor.Read() == false)
+                        return;
 
-                registro = LerRegistro(leitor);
+                    registro = LerRegistro(leitor);
+                }
             });
 
             return registro;
@@ -137,13 +152,12 @@ namespace ControleDeTarefas.Controladores.Base
             {
                 string sql = GerarSqlBuscar();
 
-                SqlCommand comando = new SqlCommand(sql, conexao);
+                IDbCommand comando = dbConexao.CriarSqlCommand(sql, conexao);
 
-                SqlDataReader leitor = comando.ExecuteReader();
-
-                while (leitor.Read())
-                    registro.Add(LerRegistro(leitor));
-
+                using (var leitor = comando.ExecuteReader()) { 
+                    while (leitor.Read())
+                        registro.Add(LerRegistro(leitor));
+                }
             });
 
             return registro.ToArray();
@@ -195,7 +209,7 @@ namespace ControleDeTarefas.Controladores.Base
 
             sql.AppendLine(");");
 
-            sql.AppendLine("SELECT SCOPE_IDENTITY();");
+            sql.AppendLine(dbConexao.PegarComandoSelecionarUltimoId());
 
             return sql.ToString();
         }
@@ -258,6 +272,16 @@ namespace ControleDeTarefas.Controladores.Base
             return sql.ToString();
         }
 
+        private IDbDataParameter CriarParametro(string nome, object valor, IDbCommand comando)
+        {
+            var parameter = comando.CreateParameter();
+
+            parameter.ParameterName = nome;
+            parameter.Value = valor;
+
+            return parameter;
+        }
+
 
         protected abstract Dictionary<string, object> PegarPropriedades(T registro);
 
@@ -265,6 +289,6 @@ namespace ControleDeTarefas.Controladores.Base
 
         protected abstract string[] PegarCamposEditar();
 
-        protected abstract T LerRegistro(SqlDataReader leitor);
+        protected abstract T LerRegistro(IDataReader leitor);
     }
 }

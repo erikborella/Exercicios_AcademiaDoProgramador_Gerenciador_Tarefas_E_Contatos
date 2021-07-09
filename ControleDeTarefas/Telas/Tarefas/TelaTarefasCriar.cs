@@ -15,7 +15,7 @@ namespace ControleDeTarefas.Telas.Tarefas
         {
             Console.Clear();
 
-            Tarefa novaTarefa = ObterTarefa();
+            TarefaModelo novaTarefa = ObterTarefa();
 
             bool conseguiuCriar = controladorTarefa.Inserir(novaTarefa);
 

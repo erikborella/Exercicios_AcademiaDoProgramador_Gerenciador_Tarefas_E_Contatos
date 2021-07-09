@@ -17,9 +17,9 @@ namespace ControleDeTarefas.Telas.Tarefas.Visualizar
         {
             Console.Clear();
 
-            Tarefa[] tarefas = controladorTarefa.BuscarRegistros();
+            TarefaModelo[] tarefas = controladorTarefa.BuscarRegistros();
 
-            Tarefa[] tarefasConcluidas = tarefas
+            TarefaModelo[] tarefasConcluidas = tarefas
                 .Where(tarefa => tarefa.PercentualConcluido == 100)
                 .OrderByDescending(tarefa => tarefa.Prioridade)
                 .ToArray();

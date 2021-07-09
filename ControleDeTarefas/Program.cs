@@ -1,11 +1,12 @@
-﻿
-using ControleDeTarefas.Controladores;
+﻿using ControleDeTarefas.Telas.Base;
 using ControleDeTarefas.Telas;
-using ControleDeTarefas.Telas.Base;
+using System.Collections.Generic;
 using System;
+using ControleDeTarefas.Controladores;
+using ControleDeTarefas.Query;
 
+using System.Configuration;
 using ControleDeTarefas.Dominios;
-using System.Reflection;
 
 namespace ControleDeTarefas
 {
@@ -15,6 +16,7 @@ namespace ControleDeTarefas
         {
             TelaPrincipal telaPrincipal = new TelaPrincipal();
             ExecutarMenu(telaPrincipal);
+
         }
 
         private static void ExecutarMenu(TelaBase tela)

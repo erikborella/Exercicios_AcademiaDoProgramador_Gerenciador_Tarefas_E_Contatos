@@ -16,7 +16,7 @@ namespace ControleDeTarefas.Telas.Contatos
         {
             Console.Clear();
 
-            Contato novoContato = ObterContato();
+            ContatoModelo novoContato = ObterContato();
 
             bool conseguiuCriar = controladorContato.Inserir(novoContato);
 
