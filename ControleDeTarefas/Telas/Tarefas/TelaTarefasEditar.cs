@@ -1,4 +1,4 @@
-﻿using ControleDeTarefas.Controladores;
+﻿using ControleDeTarefas.Controladores.Legado;
 using ControleDeTarefas.Dominios;
 using ControleDeTarefas.Telas.Base;
 using System;
@@ -24,7 +24,7 @@ namespace ControleDeTarefas.Telas.Tarefas
                 return null;
             }
 
-            TarefaModelo novaTarefa = ObterTarefa();
+            Tarefa novaTarefa = ObterTarefa();
             novaTarefa.Id = id;
 
             bool conseguiuEditar = controladorTarefa.Editar(novaTarefa);

@@ -1,4 +1,4 @@
-﻿using ControleDeTarefas.Controladores;
+﻿using ControleDeTarefas.Controladores.Legado;
 using ControleDeTarefas.Dominios;
 using ControleDeTarefas.Telas.Base;
 using System;
@@ -25,7 +25,7 @@ namespace ControleDeTarefas.Telas.Contatos
                 return null;
             }
 
-            ContatoModelo novoContato = ObterContato();
+            Contato novoContato = ObterContato();
             novoContato.Id = id;
 
             bool conseguiuEditar = controladorContato.Editar(novoContato);

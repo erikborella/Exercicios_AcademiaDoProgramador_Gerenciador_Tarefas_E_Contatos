@@ -1,4 +1,4 @@
-﻿using ControleDeTarefas.Controladores;
+﻿using ControleDeTarefas.Controladores.Legado;
 using ControleDeTarefas.Dominios;
 using ControleDeTarefas.Telas.Base;
 using System;
@@ -17,7 +17,7 @@ namespace ControleDeTarefas.Telas.Tarefas
         {
             Console.Clear();
 
-            TarefaModelo[] tarefasPendentes = controladorTarefa
+            Tarefa[] tarefasPendentes = controladorTarefa
                 .BuscarRegistros()
                 .Where(tarefa => tarefa.PercentualConcluido != 100)
                 .OrderByDescending(tarefa => tarefa.Prioridade)

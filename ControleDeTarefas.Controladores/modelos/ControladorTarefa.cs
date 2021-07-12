@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ControleDeTarefas.Dominios;
+using ControleDeTarefas.Dominios.Modelos;
 using ControleDeTarefas.Query;
 
-namespace ControleDeTarefas.Controladores
+namespace ControleDeTarefas.Controladores.modelos
 {
     public class ControladorTarefa
     {

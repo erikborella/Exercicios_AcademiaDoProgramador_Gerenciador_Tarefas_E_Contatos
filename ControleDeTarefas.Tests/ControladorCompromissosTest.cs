@@ -4,9 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using ControleDeTarefas.Controladores.Legado;
 using ControleDeTarefas.Dominios;
-using ControleDeTarefas.Controladores;
 
 namespace ControleDeTarefas.Tests
 {
@@ -20,15 +19,15 @@ namespace ControleDeTarefas.Tests
         public ControladorCompromissosTest()
         {
             this.controladorContato = new ControladorContato();
-            this.controladorCompromisso = new ControladorCompromisso();
+            this.controladorCompromisso = new ControladorCompromisso(controladorContato);
             this.dataPraTestar = DateTime.Parse("28/06/2021");
         }
 
         [TestMethod]
         public void DeveInserirNovoCompromissoSemContato()
         {
-            CompromissoModelo novoCompromisso =
-                new CompromissoModelo("TESTE", "TESTES", dataPraTestar, 
+            Compromisso novoCompromisso =
+                new Compromisso("TESTE", "TESTES", dataPraTestar, 
                 TimeSpan.Parse("9:00"), TimeSpan.Parse("10:00"), null);
 
             bool conseguiuInserir = controladorCompromisso.Inserir(novoCompromisso);
@@ -40,10 +39,10 @@ namespace ControleDeTarefas.Tests
         [TestMethod]
         public void DeveInserirNovoCompromissoComContato()
         {
-            ContatoModelo contato = InserirContato();
+            Contato contato = InserirContato();
 
-            CompromissoModelo novoCompromisso =
-                new CompromissoModelo("TESTE", "TESTES", dataPraTestar, 
+            Compromisso novoCompromisso =
+                new Compromisso("TESTE", "TESTES", dataPraTestar, 
                 TimeSpan.Parse("9:00"), TimeSpan.Parse("10:00"), contato);
 
             bool conseguiuInserir = controladorCompromisso.Inserir(novoCompromisso);
@@ -55,21 +54,21 @@ namespace ControleDeTarefas.Tests
         [TestMethod]
         public void DeveEditarCompromissoTirandoContato()
         {
-            ContatoModelo contato = InserirContato();
+            Contato contato = InserirContato();
 
-            CompromissoModelo compromisso =
-                new CompromissoModelo("TESTE", "TESTES", dataPraTestar,
+            Compromisso compromisso =
+                new Compromisso("TESTE", "TESTES", dataPraTestar,
                 TimeSpan.Parse("9:00"), TimeSpan.Parse("10:00"), contato);
             controladorCompromisso.Inserir(compromisso);
 
-            CompromissoModelo novoCompromisso =
-                new CompromissoModelo("EDITADO", "EDITAÇÃO", dataPraTestar,
+            Compromisso novoCompromisso =
+                new Compromisso("EDITADO", "EDITAÇÃO", dataPraTestar,
                 TimeSpan.Parse("9:00"), TimeSpan.Parse("10:00"), null);
             novoCompromisso.Id = compromisso.Id;
 
             bool conseguiuEditar = controladorCompromisso.Editar(novoCompromisso);
 
-            CompromissoModelo compromissoRecuperado = controladorCompromisso.BuscarRegistroPorId(compromisso.Id);
+            Compromisso compromissoRecuperado = controladorCompromisso.BuscarRegistroPorId(compromisso.Id);
 
             Assert.IsTrue(conseguiuEditar);
 
@@ -85,22 +84,22 @@ namespace ControleDeTarefas.Tests
         [TestMethod]
         public void DeveEditarCompromissoMudandoContato()
         {
-            ContatoModelo contato = InserirContato();
+            Contato contato = InserirContato();
 
-            ContatoModelo contato2 = InserirContato();
+            Contato contato2 = InserirContato();
 
-            CompromissoModelo compromisso =
-                new CompromissoModelo("TESTE", "TESTES", dataPraTestar,
+            Compromisso compromisso =
+                new Compromisso("TESTE", "TESTES", dataPraTestar,
                 TimeSpan.Parse("9:00"), TimeSpan.Parse("10:00"), contato);
             controladorCompromisso.Inserir(compromisso);
 
-            CompromissoModelo novoCompromisso =
-                new CompromissoModelo("EDITADO", "EDITAÇÃO", dataPraTestar,
+            Compromisso novoCompromisso =
+                new Compromisso("EDITADO", "EDITAÇÃO", dataPraTestar,
                 TimeSpan.Parse("9:00"), TimeSpan.Parse("10:00"), contato2);
             novoCompromisso.Id = compromisso.Id;
 
             bool conseguiuEditar = controladorCompromisso.Editar(novoCompromisso);
-            CompromissoModelo compromissoRecuperado = controladorCompromisso.BuscarRegistroPorId(compromisso.Id);
+            Compromisso compromissoRecuperado = controladorCompromisso.BuscarRegistroPorId(compromisso.Id);
 
             Assert.IsTrue(conseguiuEditar);
 
@@ -117,14 +116,14 @@ namespace ControleDeTarefas.Tests
         [TestMethod]
         public void DeveExcluirCompromisso()
         {
-            CompromissoModelo compromisso =
-                new CompromissoModelo("TESTE", "TESTES", dataPraTestar,
+            Compromisso compromisso =
+                new Compromisso("TESTE", "TESTES", dataPraTestar,
                 TimeSpan.Parse("9:00"), TimeSpan.Parse("10:00"), null);
             controladorCompromisso.Inserir(compromisso);
 
             bool conseguiuExcluir = controladorCompromisso.Excluir(compromisso.Id);
 
-            CompromissoModelo compromissoRecuperado = controladorCompromisso.BuscarRegistroPorId(compromisso.Id);
+            Compromisso compromissoRecuperado = controladorCompromisso.BuscarRegistroPorId(compromisso.Id);
 
             Assert.IsTrue(conseguiuExcluir);
             Assert.IsNull(compromissoRecuperado);
@@ -133,19 +132,19 @@ namespace ControleDeTarefas.Tests
         [TestMethod]
         public void DeveBuscarCompromissoPorId()
         {
-            ContatoModelo contato = InserirContato();
+            Contato contato = InserirContato();
 
-            CompromissoModelo compromisso =
-                new CompromissoModelo("TESTE", "TESTES", dataPraTestar,
+            Compromisso compromisso =
+                new Compromisso("TESTE", "TESTES", dataPraTestar,
                 TimeSpan.Parse("9:00"), TimeSpan.Parse("10:00"), contato);
 
             controladorCompromisso.Inserir(compromisso);
 
             int id = compromisso.Id;
 
-            CompromissoModelo compromissoRecuperado = controladorCompromisso.BuscarRegistroPorId(id);
+            Compromisso compromissoRecuperado = controladorCompromisso.BuscarRegistroPorId(id);
 
-            ContatoModelo contatoRecuperado = compromissoRecuperado.Contato;
+            Contato contatoRecuperado = compromissoRecuperado.Contato;
 
             Assert.AreEqual(compromisso.Id, compromissoRecuperado.Id);
             Assert.AreEqual(compromisso.Assunto, compromissoRecuperado.Assunto);
@@ -166,22 +165,22 @@ namespace ControleDeTarefas.Tests
         [TestMethod]
         public void DeveBuscarTodosCompromissos()
         {
-            CompromissoModelo compromisso =
-                new CompromissoModelo("TESTE", "TESTES", dataPraTestar, 
+            Compromisso compromisso =
+                new Compromisso("TESTE", "TESTES", dataPraTestar, 
                 TimeSpan.Parse("9:00"), TimeSpan.Parse("10:00"), null);
 
             controladorCompromisso.Inserir(compromisso);
 
-            CompromissoModelo[] compromissosRecuperados = controladorCompromisso.BuscarRegistros();
+            Compromisso[] compromissosRecuperados = controladorCompromisso.BuscarRegistros();
 
             Assert.IsTrue(compromissosRecuperados.Length >= 1);
         }
 
 
-        private ContatoModelo InserirContato()
+        private Contato InserirContato()
         {
-            ContatoModelo novoContato =
-                new ContatoModelo("TESTE", "teste@test.com", "(11) 9 1111-1111", "testEmp", "testesr");
+            Contato novoContato =
+                new Contato("TESTE", "teste@test.com", "(11) 9 1111-1111", "testEmp", "testesr");
 
             controladorContato.Inserir(novoContato);
 

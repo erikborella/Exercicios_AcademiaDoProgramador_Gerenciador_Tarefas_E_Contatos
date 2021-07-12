@@ -1,5 +1,6 @@
-﻿using ControleDeTarefas.Controladores;
+﻿using ControleDeTarefas.Controladores.Legado;
 using ControleDeTarefas.Dominios;
+using ControleDeTarefas.Dominios.Modelos;
 using ControleDeTarefas.Telas.Base;
 using ControleDeTarefas.Telas.Tarefas.Visualizar;
 using System;
@@ -28,7 +29,7 @@ namespace ControleDeTarefas.Telas.Tarefas
             this.controladorTarefa = controladorTarefa;
         }
 
-        protected TarefaModelo ObterTarefa()
+        protected Tarefa ObterTarefa()
         {
             ImprimirMensagem("Digite o titulo: ", TipoMensagem.INPUT);
             string titulo = LerString();
@@ -37,10 +38,10 @@ namespace ControleDeTarefas.Telas.Tarefas
 
             PrioridadeTarefa prioridade = LerPrioridade();
 
-            return new TarefaModelo(titulo, prioridade);
+            return new Tarefa(titulo, prioridade);
         }
 
-        protected int ObterIdTarefa(TarefaModelo[] tarefas)
+        protected int ObterIdTarefa(Tarefa[] tarefas)
         {
             VisualizarTarefas(tarefas);
             Console.WriteLine();
@@ -56,7 +57,7 @@ namespace ControleDeTarefas.Telas.Tarefas
 
         protected int ObterIdTarefa()
         {
-            TarefaModelo[] tarefas = controladorTarefa
+            Tarefa[] tarefas = controladorTarefa
                 .BuscarRegistros()
                 .OrderByDescending(tarefa => tarefa.Prioridade)
                 .ToArray();
@@ -64,7 +65,7 @@ namespace ControleDeTarefas.Telas.Tarefas
             return ObterIdTarefa(tarefas);
         }
 
-        protected void VisualizarTarefas(TarefaModelo[] tarefas)
+        protected void VisualizarTarefas(Tarefa[] tarefas)
         {
             string[] nomesColunas =
             {
@@ -76,7 +77,7 @@ namespace ControleDeTarefas.Telas.Tarefas
                 "Prioridade"
             };
 
-            Func<TarefaModelo, object[]> obterValoresLinha = (tarefa) =>
+            Func<Tarefa, object[]> obterValoresLinha = (tarefa) =>
             {
                 return new object[]
                 {
@@ -95,7 +96,7 @@ namespace ControleDeTarefas.Telas.Tarefas
 
         protected void VisualizarTodasTarefas()
         {
-            TarefaModelo[] tarefas = controladorTarefa
+            Tarefa[] tarefas = controladorTarefa
                 .BuscarRegistros()
                 .OrderByDescending(tarefa => tarefa.Prioridade)
                 .ToArray();
@@ -138,7 +139,7 @@ namespace ControleDeTarefas.Telas.Tarefas
             return prioridade;
         }
 
-        private bool ExisteTarefaComId(TarefaModelo[] tarefas, int id)
+        private bool ExisteTarefaComId(Tarefa[] tarefas, int id)
         {
             return tarefas.FirstOrDefault(tarefa => tarefa.Id == id) != null;
         }

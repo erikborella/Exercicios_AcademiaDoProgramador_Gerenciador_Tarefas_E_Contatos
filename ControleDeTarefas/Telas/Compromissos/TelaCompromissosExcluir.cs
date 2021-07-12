@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using ControleDeTarefas.Telas.Base;
 using ControleDeTarefas.Telas.Contatos;
 using ControleDeTarefas.Dominios;
-using ControleDeTarefas.Controladores;
+using ControleDeTarefas.Controladores.Legado;
 
 namespace ControleDeTarefas.Telas.Compromissos
 {

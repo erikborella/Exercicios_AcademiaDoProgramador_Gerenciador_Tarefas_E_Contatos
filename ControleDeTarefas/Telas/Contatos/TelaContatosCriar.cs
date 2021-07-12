@@ -1,4 +1,4 @@
-﻿using ControleDeTarefas.Controladores;
+﻿using ControleDeTarefas.Controladores.Legado;
 using ControleDeTarefas.Dominios;
 using ControleDeTarefas.Telas.Base;
 using System;
@@ -16,7 +16,7 @@ namespace ControleDeTarefas.Telas.Contatos
         {
             Console.Clear();
 
-            ContatoModelo novoContato = ObterContato();
+            Contato novoContato = ObterContato();
 
             bool conseguiuCriar = controladorContato.Inserir(novoContato);
 

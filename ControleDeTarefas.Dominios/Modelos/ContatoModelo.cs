@@ -8,7 +8,7 @@ using ControleDeTarefas.Query;
 using ControleDeTarefas.Query.Campos;
 using ControleDeTarefas.Query.Interfaces;
 
-namespace ControleDeTarefas.Dominios
+namespace ControleDeTarefas.Dominios.Modelos
 {
     public class ContatoModelo : Modelo, IModeloConvertivel<ContatoModelo>
     {
@@ -75,10 +75,10 @@ namespace ControleDeTarefas.Dominios
         {
             int id = 0;
 
-            string nome = null, 
-                email = null, 
-                telefone = null, 
-                empresa = null, 
+            string nome = null,
+                email = null,
+                telefone = null,
+                empresa = null,
                 cargo = null;
 
             if (valores.ContainsKey("Id"))

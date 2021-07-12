@@ -5,9 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using ControleDeTarefas.Telas.Base;
 using ControleDeTarefas.Telas.Contatos;
-
+using ControleDeTarefas.Controladores.Legado;
 using ControleDeTarefas.Dominios;
-using ControleDeTarefas.Controladores;
 
 namespace ControleDeTarefas.Telas.Compromissos.Visualizar
 {
@@ -25,7 +24,7 @@ namespace ControleDeTarefas.Telas.Compromissos.Visualizar
 
             DateTime diaAVisualizar = LerDiaAVisualizar();
 
-            CompromissoModelo[] compromissos = ObterCompromissosDoDia(diaAVisualizar);
+            Compromisso[] compromissos = ObterCompromissosDoDia(diaAVisualizar);
 
             Console.Clear();
 
@@ -56,7 +55,7 @@ namespace ControleDeTarefas.Telas.Compromissos.Visualizar
             return diaAVisualizar;
         }
 
-        private CompromissoModelo[] ObterCompromissosDoDia(DateTime diaAVisualizar)
+        private Compromisso[] ObterCompromissosDoDia(DateTime diaAVisualizar)
         {
             return controladorCompromisso.BuscarRegistros()
                             .Where(compromisso => compromisso.Data == diaAVisualizar)

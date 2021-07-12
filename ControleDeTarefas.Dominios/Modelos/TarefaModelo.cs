@@ -8,7 +8,7 @@ using ControleDeTarefas.Query;
 using ControleDeTarefas.Query.Campos;
 using ControleDeTarefas.Query.Interfaces;
 
-namespace ControleDeTarefas.Dominios
+namespace ControleDeTarefas.Dominios.Modelos
 {
     public class TarefaModelo : Modelo, IModeloConvertivel<TarefaModelo>
     {

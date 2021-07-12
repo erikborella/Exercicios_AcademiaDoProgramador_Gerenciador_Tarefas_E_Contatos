@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using ControleDeTarefas.Telas.Contatos;
-using ControleDeTarefas.Controladores;
+using ControleDeTarefas.Controladores.Legado;
 
 namespace ControleDeTarefas.Telas.Compromissos.Visualizar
 {

@@ -1,4 +1,4 @@
-﻿using ControleDeTarefas.Controladores;
+﻿using ControleDeTarefas.Controladores.Legado;
 using ControleDeTarefas.Telas.Base;
 using System;
 

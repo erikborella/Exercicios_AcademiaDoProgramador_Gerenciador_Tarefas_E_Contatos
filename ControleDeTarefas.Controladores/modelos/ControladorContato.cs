@@ -4,29 +4,29 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using ControleDeTarefas.Dominios;
 using ControleDeTarefas.Query;
+using ControleDeTarefas.Dominios.Modelos;
 
-namespace ControleDeTarefas.Controladores
+namespace ControleDeTarefas.Controladores.modelos
 {
-    public class ControladorCompromisso
+    public class ControladorContato
     {
-        public bool Inserir(CompromissoModelo compromisso)
+        public bool Inserir(ContatoModelo contato)
         {
-            int id = compromisso
+            int id = contato
                 .SQL()
                 .Inserir()
                 .TodosOsCampos()
                 .Executar();
 
-            compromisso.Id = id;
+            contato.Id = id;
 
             return id != 0;
         }
 
-        public bool Editar(CompromissoModelo compromisso)
+        public bool Editar(ContatoModelo contato)
         {
-            bool sucesso = compromisso
+            bool sucesso = contato
                 .SQL()
                 .Atualizar()
                 .TodosOsCampos()
@@ -38,7 +38,7 @@ namespace ControleDeTarefas.Controladores
 
         public bool Excluir(int id)
         {
-            CompromissoModelo modelo = new CompromissoModelo();
+            ContatoModelo modelo = new ContatoModelo();
 
             bool sucesso = modelo
                 .SQL()
@@ -46,24 +46,19 @@ namespace ControleDeTarefas.Controladores
                 .Onde(modelo.campoId).EhIgualA(id)
                 .Executar();
 
-
             return sucesso;
         }
 
-        public CompromissoModelo BuscarRegistroPorId(int id)
+        public ContatoModelo BuscarRegistroPorId(int id)
         {
-            CompromissoModelo modelo = new CompromissoModelo()
-            {
-                Contato = new ContatoModelo()
-            };
+            ContatoModelo modelo = new ContatoModelo();
 
-            CompromissoModelo[] modelos = modelo
+            ContatoModelo[] modelos = modelo
                 .SQL()
                 .Selecionar()
                 .TodosOsCampos()
-                .JunteCom(modelo.campoContato).JuncaoEsquerda()
                 .Onde(modelo.campoId).EhIgualA(id)
-                .ConverterRecursivamente<CompromissoModelo, ContatoModelo>();
+                .Converter<ContatoModelo>();
 
             if (modelos.Length == 0)
                 return null;
@@ -71,19 +66,15 @@ namespace ControleDeTarefas.Controladores
                 return modelos[0];
         }
 
-        public CompromissoModelo[] BuscarRegistros()
+        public ContatoModelo[] BuscarRegistros()
         {
-            CompromissoModelo modelo = new CompromissoModelo()
-            {
-                Contato = new ContatoModelo()
-            };
+            ContatoModelo modelo = new ContatoModelo();
 
-            CompromissoModelo[] modelos = modelo
+            ContatoModelo[] modelos = modelo
                 .SQL()
                 .Selecionar()
                 .TodosOsCampos()
-                .JunteCom(modelo.campoContato).JuncaoEsquerda()
-                .ConverterRecursivamente<CompromissoModelo, ContatoModelo>();
+                .Converter<ContatoModelo>();
 
             return modelos;
         }

@@ -1,4 +1,4 @@
-﻿using ControleDeTarefas.Controladores;
+﻿using ControleDeTarefas.Controladores.Legado;
 
 namespace ControleDeTarefas.Telas.Tarefas.Visualizar
 {

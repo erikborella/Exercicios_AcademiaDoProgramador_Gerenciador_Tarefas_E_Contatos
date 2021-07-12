@@ -63,13 +63,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="base\ControladorBase.cs" />
-    <Compile Include="ControladorCompromisso.cs" />
-    <Compile Include="ControladorContato.cs" />
-    <Compile Include="ControladorTarefa.cs" />
+    <Compile Include="modelos\ControladorCompromisso.cs" />
+    <Compile Include="modelos\ControladorContato.cs" />
+    <Compile Include="modelos\ControladorTarefa.cs" />
     <Compile Include="legado\ControladorContato.cs" />
     <Compile Include="legado\ControladorCompromisso.cs" />
     <Compile Include="base\ControladorRelacionavelBase.cs" />
-    <Compile Include="ControladorModelo.cs" />
+    <Compile Include="modelos\ControladorModelo.cs" />
     <Compile Include="legado\ControladorTarefa.cs" />
     <Compile Include="DBConexao.cs" />
     <Compile Include="base\IControlavel.cs" />

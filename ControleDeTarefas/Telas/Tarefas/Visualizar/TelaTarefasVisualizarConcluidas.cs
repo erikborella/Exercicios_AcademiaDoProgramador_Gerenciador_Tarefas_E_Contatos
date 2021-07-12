@@ -1,4 +1,4 @@
-﻿using ControleDeTarefas.Controladores;
+﻿using ControleDeTarefas.Controladores.Legado;
 using ControleDeTarefas.Dominios;
 using ControleDeTarefas.Telas.Base;
 using System;
@@ -17,9 +17,9 @@ namespace ControleDeTarefas.Telas.Tarefas.Visualizar
         {
             Console.Clear();
 
-            TarefaModelo[] tarefas = controladorTarefa.BuscarRegistros();
+            Tarefa[] tarefas = controladorTarefa.BuscarRegistros();
 
-            TarefaModelo[] tarefasConcluidas = tarefas
+            Tarefa[] tarefasConcluidas = tarefas
                 .Where(tarefa => tarefa.PercentualConcluido == 100)
                 .OrderByDescending(tarefa => tarefa.Prioridade)
                 .ToArray();

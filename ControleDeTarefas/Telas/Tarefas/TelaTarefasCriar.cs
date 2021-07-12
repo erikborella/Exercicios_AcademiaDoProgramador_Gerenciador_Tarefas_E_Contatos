@@ -1,4 +1,4 @@
-﻿using ControleDeTarefas.Controladores;
+﻿using ControleDeTarefas.Controladores.Legado;
 using ControleDeTarefas.Dominios;
 using ControleDeTarefas.Telas.Base;
 using System;
@@ -15,7 +15,7 @@ namespace ControleDeTarefas.Telas.Tarefas
         {
             Console.Clear();
 
-            TarefaModelo novaTarefa = ObterTarefa();
+            Tarefa novaTarefa = ObterTarefa();
 
             bool conseguiuCriar = controladorTarefa.Inserir(novaTarefa);
 

@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 using ControleDeTarefas.Telas.Base;
 using ControleDeTarefas.Telas.Contatos;
 using ControleDeTarefas.Telas.Compromissos.Visualizar;
+using ControleDeTarefas.Controladores.Legado;
 using ControleDeTarefas.Dominios;
-using ControleDeTarefas.Controladores;
 
 namespace ControleDeTarefas.Telas.Compromissos
 {
@@ -37,7 +37,7 @@ namespace ControleDeTarefas.Telas.Compromissos
             this.telaContatos = telaContatos;
         }
 
-        protected CompromissoModelo ObterCompromisso()
+        protected Compromisso ObterCompromisso()
         {
             string assunto, local;
             DateTime data;
@@ -61,15 +61,15 @@ namespace ControleDeTarefas.Telas.Compromissos
 
             contatoId = ObterContatoId();
 
-            ContatoModelo contatoTemp = null;
+            Contato contatoTemp = null;
 
             if (contatoId != -1)
-                contatoTemp = new ContatoModelo(contatoId);
+                contatoTemp = new Contato(contatoId);
 
-            return new CompromissoModelo(assunto, local, data, horaInicial, horaFinal, contatoTemp);
+            return new Compromisso(assunto, local, data, horaInicial, horaFinal, contatoTemp);
         }
 
-        public void VisualizarCompromissos(CompromissoModelo[] compromissos)
+        public void VisualizarCompromissos(Compromisso[] compromissos)
         {
             string[] nomesColunas =
             {
@@ -83,7 +83,7 @@ namespace ControleDeTarefas.Telas.Compromissos
                 "Telefone contato"
             };
 
-            Func<CompromissoModelo, object[]> obterValoresLinha = (compromisso) =>
+            Func<Compromisso, object[]> obterValoresLinha = (compromisso) =>
             {
                 return new object[]
                 {
@@ -103,14 +103,14 @@ namespace ControleDeTarefas.Telas.Compromissos
 
         public void VisualizarTodosCompromissos()
         {
-            CompromissoModelo[] compromissos = controladorCompromisso
+            Compromisso[] compromissos = controladorCompromisso
                 .BuscarRegistros()
                 .ToArray();
 
             VisualizarCompromissos(compromissos);
         }
 
-        public int ObterIdCompromisso(CompromissoModelo[] compromissos)
+        public int ObterIdCompromisso(Compromisso[] compromissos)
         {
             VisualizarCompromissos(compromissos);
             Console.WriteLine();
@@ -126,7 +126,7 @@ namespace ControleDeTarefas.Telas.Compromissos
 
         public int ObterIdCompromisso()
         {
-            CompromissoModelo[] compromissos = controladorCompromisso
+            Compromisso[] compromissos = controladorCompromisso
                 .BuscarRegistros()
                 .ToArray();
 
@@ -146,7 +146,7 @@ namespace ControleDeTarefas.Telas.Compromissos
                     continue;
                 }
 
-                CompromissoModelo conflitante = CompromissoConflitante(data, hora);
+                Compromisso conflitante = CompromissoConflitante(data, hora);
 
                 if (conflitante == null)
                     return hora;
@@ -162,7 +162,7 @@ namespace ControleDeTarefas.Telas.Compromissos
             }
         }
 
-        private bool ExisteCompromissoComId(CompromissoModelo[] compromissos, int id)
+        private bool ExisteCompromissoComId(Compromisso[] compromissos, int id)
         {
             return compromissos.FirstOrDefault(compromisso => compromisso.Id == id) != null;
         }
@@ -212,12 +212,12 @@ namespace ControleDeTarefas.Telas.Compromissos
             }
         }
 
-        private CompromissoModelo CompromissoConflitante(DateTime data, 
+        private Compromisso CompromissoConflitante(DateTime data, 
             TimeSpan hora)
         {
-            CompromissoModelo[] compromissos = controladorCompromisso.BuscarRegistros();
+            Compromisso[] compromissos = controladorCompromisso.BuscarRegistros();
 
-            CompromissoModelo conflitante = compromissos.FirstOrDefault(compromisso =>
+            Compromisso conflitante = compromissos.FirstOrDefault(compromisso =>
             {
                 if (compromisso.Data != data)
                     return false;

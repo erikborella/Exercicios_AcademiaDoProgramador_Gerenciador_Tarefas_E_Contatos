@@ -16,7 +16,7 @@ using ControleDeTarefas.Query.Geradores.Atualizar;
 using ControleDeTarefas.Query.Geradores.Deletar;
 using ControleDeTarefas.Query.Geradores.Selecionar;
 
-namespace ControleDeTarefas.Controladores
+namespace ControleDeTarefas.Controladores.modelos
 {
     public static class ControladorModelo
     {
@@ -136,9 +136,9 @@ namespace ControleDeTarefas.Controladores
                 T modelo = modeloBase.Converter(valoresModelo);
                 int indexCampoEstrangeiro = EncontrarIndexCampoEstrangeiro<F>(modelo);
 
-                CampoRelacionavel<F> campoRelacionavel = 
-                    (modelo.campos[indexCampoEstrangeiro] as CampoRelacionavel<F>);
-     
+                CampoRelacionavel<F> campoRelacionavel =
+                    modelo.campos[indexCampoEstrangeiro] as CampoRelacionavel<F>;
+
                 if (campoRelacionavel.Valor != null && campoRelacionavel.Valor.Id != 0)
                 {
                     F[] modelosEstrangerios = campoRelacionavel.Valor

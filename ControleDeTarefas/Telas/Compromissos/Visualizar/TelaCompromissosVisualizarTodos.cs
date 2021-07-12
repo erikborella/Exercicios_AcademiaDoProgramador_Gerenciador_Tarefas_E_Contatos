@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ControleDeTarefas.Controladores;
+using ControleDeTarefas.Controladores.Legado;
 using ControleDeTarefas.Telas.Base;
 using ControleDeTarefas.Telas.Contatos;
 

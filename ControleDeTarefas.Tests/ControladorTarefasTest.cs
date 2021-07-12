@@ -1,4 +1,4 @@
-﻿using ControleDeTarefas.Controladores;
+﻿using ControleDeTarefas.Controladores.Legado;
 using ControleDeTarefas.Dominios;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -17,8 +17,8 @@ namespace ControleDeTarefas.Tests
         [TestMethod]
         public void DeveInserirNovaTarefa()
         {
-            TarefaModelo novaTarefa =
-                new TarefaModelo("TESTAR", PrioridadeTarefa.BAIXA);
+            Tarefa novaTarefa =
+                new Tarefa("TESTAR", PrioridadeTarefa.BAIXA);
 
             bool conseguiuInserir = controladorTarefa.Inserir(novaTarefa);
 
@@ -29,16 +29,16 @@ namespace ControleDeTarefas.Tests
         [TestMethod]
         public void DeveEditarTarefa()
         {
-            TarefaModelo tarefa =
-                new TarefaModelo("TESTAR", PrioridadeTarefa.BAIXA);
+            Tarefa tarefa =
+                new Tarefa("TESTAR", PrioridadeTarefa.BAIXA);
             controladorTarefa.Inserir(tarefa);
 
-            TarefaModelo novaTarefa =
-                new TarefaModelo("EDITADO", PrioridadeTarefa.MEDIA);
+            Tarefa novaTarefa =
+                new Tarefa("EDITADO", PrioridadeTarefa.MEDIA);
             novaTarefa.Id = tarefa.Id;
 
             bool conseguiuEditar = controladorTarefa.Editar(novaTarefa);
-            TarefaModelo tarefaRecuperada = controladorTarefa.BuscarRegistroPorId(tarefa.Id);
+            Tarefa tarefaRecuperada = controladorTarefa.BuscarRegistroPorId(tarefa.Id);
 
             Assert.IsTrue(conseguiuEditar);
 
@@ -53,13 +53,13 @@ namespace ControleDeTarefas.Tests
         [TestMethod]
         public void DeveMudarPercentualConcluidoTarefa()
         {
-            TarefaModelo tarefa =
-                new TarefaModelo("TESTAR", PrioridadeTarefa.BAIXA);
+            Tarefa tarefa =
+                new Tarefa("TESTAR", PrioridadeTarefa.BAIXA);
             controladorTarefa.Inserir(tarefa);
 
             bool conseguiuMudar = controladorTarefa.AtualizarPercentualConcluido(tarefa.Id, 80);
 
-            TarefaModelo tarefaRecuperada = controladorTarefa.BuscarRegistroPorId(tarefa.Id);
+            Tarefa tarefaRecuperada = controladorTarefa.BuscarRegistroPorId(tarefa.Id);
 
             Assert.IsTrue(conseguiuMudar);
             Assert.AreEqual(tarefaRecuperada.PercentualConcluido, 80);
@@ -68,13 +68,13 @@ namespace ControleDeTarefas.Tests
         [TestMethod]
         public void DeveCompletarTarefa()
         {
-            TarefaModelo tarefa =
-                new TarefaModelo("TESTAR", PrioridadeTarefa.BAIXA);
+            Tarefa tarefa =
+                new Tarefa("TESTAR", PrioridadeTarefa.BAIXA);
             controladorTarefa.Inserir(tarefa);
 
             bool conseguiuMudar = controladorTarefa.AtualizarPercentualConcluido(tarefa.Id, 100);
 
-            TarefaModelo tarefaRecuperada = controladorTarefa.BuscarRegistroPorId(tarefa.Id);
+            Tarefa tarefaRecuperada = controladorTarefa.BuscarRegistroPorId(tarefa.Id);
 
             Assert.IsTrue(conseguiuMudar);
             Assert.IsNotNull(tarefaRecuperada.DataConclusao);
@@ -83,13 +83,13 @@ namespace ControleDeTarefas.Tests
         [TestMethod]
         public void DeveExcluirTarefa()
         {
-            TarefaModelo tarefa =
-                new TarefaModelo("TESTAR", PrioridadeTarefa.BAIXA);
+            Tarefa tarefa =
+                new Tarefa("TESTAR", PrioridadeTarefa.BAIXA);
             controladorTarefa.Inserir(tarefa);
 
             bool conseguiuExcluir = controladorTarefa.Excluir(tarefa.Id);
 
-            TarefaModelo tarefaRecuperda = controladorTarefa.BuscarRegistroPorId(tarefa.Id);
+            Tarefa tarefaRecuperda = controladorTarefa.BuscarRegistroPorId(tarefa.Id);
 
             Assert.IsTrue(conseguiuExcluir);
             Assert.IsNull(tarefaRecuperda);
@@ -98,14 +98,14 @@ namespace ControleDeTarefas.Tests
         [TestMethod]
         public void DeveBuscarTarefaPorId()
         {
-            TarefaModelo tarefa =
-                new TarefaModelo("TESTAR", PrioridadeTarefa.BAIXA);
+            Tarefa tarefa =
+                new Tarefa("TESTAR", PrioridadeTarefa.BAIXA);
 
             controladorTarefa.Inserir(tarefa);
 
             int id = tarefa.Id;
 
-            TarefaModelo tarefaRecuperada = controladorTarefa.BuscarRegistroPorId(id);
+            Tarefa tarefaRecuperada = controladorTarefa.BuscarRegistroPorId(id);
 
             Assert.AreEqual(tarefa.Id, tarefaRecuperada.Id);
             Assert.AreEqual(tarefa.Titulo, tarefaRecuperada.Titulo);
@@ -118,12 +118,12 @@ namespace ControleDeTarefas.Tests
         [TestMethod]
         public void DeveBuscarTodasTarefas()
         {
-            TarefaModelo tarefa =
-                new TarefaModelo("TESTAR", PrioridadeTarefa.BAIXA);
+            Tarefa tarefa =
+                new Tarefa("TESTAR", PrioridadeTarefa.BAIXA);
 
             controladorTarefa.Inserir(tarefa);
 
-            TarefaModelo[] tarefasRecuperadas = controladorTarefa.BuscarRegistros();
+            Tarefa[] tarefasRecuperadas = controladorTarefa.BuscarRegistros();
 
             Assert.IsTrue(tarefasRecuperadas.Length >= 1);
         }

@@ -1,4 +1,4 @@
-﻿using ControleDeTarefas.Controladores;
+﻿using ControleDeTarefas.Controladores.Legado;
 using ControleDeTarefas.Dominios;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -17,8 +17,8 @@ namespace ControleDeTarefas.Tests
         [TestMethod]
         public void DeveInserirNovoContato()
         {
-            ContatoModelo novoContato =
-                new ContatoModelo("TESTE", "teste@test.com", "(11) 9 1111-1111", "testEmp", "testesr");
+            Contato novoContato =
+                new Contato("TESTE", "teste@test.com", "(11) 9 1111-1111", "testEmp", "testesr");
 
             bool conseguiuInserir = controladorContato.Inserir(novoContato);
 
@@ -29,16 +29,16 @@ namespace ControleDeTarefas.Tests
         [TestMethod]
         public void DeveEditarContato()
         {
-            ContatoModelo contato =
-                new ContatoModelo("TESTE", "teste@test.com", "(11) 9 1111-1111", "testEmp", "testesr");
+            Contato contato =
+                new Contato("TESTE", "teste@test.com", "(11) 9 1111-1111", "testEmp", "testesr");
             controladorContato.Inserir(contato);
 
-            ContatoModelo novoContato =
-                new ContatoModelo("editado", "editado@edit.com", "(12) 9 1234-1234", "editEmp", "editer");
+            Contato novoContato =
+                new Contato("editado", "editado@edit.com", "(12) 9 1234-1234", "editEmp", "editer");
             novoContato.Id = contato.Id;
 
             bool conseguiuEditar = controladorContato.Editar(novoContato);
-            ContatoModelo contatoRecuperado = controladorContato.BuscarRegistroPorId(contato.Id);
+            Contato contatoRecuperado = controladorContato.BuscarRegistroPorId(contato.Id);
 
             Assert.IsTrue(conseguiuEditar);
 
@@ -53,13 +53,13 @@ namespace ControleDeTarefas.Tests
         [TestMethod]
         public void DeveExcluirContato()
         {
-            ContatoModelo contato =
-                new ContatoModelo("TESTE", "teste@test.com", "(11) 9 1111-1111", "testEmp", "testesr");
+            Contato contato =
+                new Contato("TESTE", "teste@test.com", "(11) 9 1111-1111", "testEmp", "testesr");
             controladorContato.Inserir(contato);
 
             bool conseguiuExcluir = controladorContato.Excluir(contato.Id);
 
-            ContatoModelo contatoRecuperado = controladorContato.BuscarRegistroPorId(contato.Id);
+            Contato contatoRecuperado = controladorContato.BuscarRegistroPorId(contato.Id);
 
             Assert.IsTrue(conseguiuExcluir);
             Assert.IsNull(contatoRecuperado);
@@ -68,14 +68,14 @@ namespace ControleDeTarefas.Tests
         [TestMethod]
         public void DeveBuscarContatoPorId()
         {
-            ContatoModelo contato =
-                new ContatoModelo("TESTE", "teste@test.com", "(11) 9 1111-1111", "testEmp", "testesr");
+            Contato contato =
+                new Contato("TESTE", "teste@test.com", "(11) 9 1111-1111", "testEmp", "testesr");
 
             controladorContato.Inserir(contato);
 
             int id = contato.Id;
 
-            ContatoModelo contatoRecuperado = controladorContato.BuscarRegistroPorId(id);
+            Contato contatoRecuperado = controladorContato.BuscarRegistroPorId(id);
 
             Assert.AreEqual(contato.Id, contatoRecuperado.Id);
             Assert.AreEqual(contato.Nome, contatoRecuperado.Nome);
@@ -88,12 +88,12 @@ namespace ControleDeTarefas.Tests
         [TestMethod]
         public void DeveBuscarTodosContatos()
         {
-            ContatoModelo contato =
-                new ContatoModelo("TESTE", "teste@test.com", "(11) 9 1111-1111", "testEmp", "testesr");
+            Contato contato =
+                new Contato("TESTE", "teste@test.com", "(11) 9 1111-1111", "testEmp", "testesr");
 
             controladorContato.Inserir(contato);
 
-            ContatoModelo[] contatosRecuperados = controladorContato.BuscarRegistros();
+            Contato[] contatosRecuperados = controladorContato.BuscarRegistros();
 
             Assert.IsTrue(contatosRecuperados.Length >= 1);
         }

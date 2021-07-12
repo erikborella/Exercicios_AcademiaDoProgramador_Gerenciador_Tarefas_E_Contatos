@@ -6,7 +6,7 @@ using ControleDeTarefas.Controladores;
 using ControleDeTarefas.Query;
 
 using System.Configuration;
-using ControleDeTarefas.Dominios;
+using ControleDeTarefas.Dominios.Modelos;
 
 namespace ControleDeTarefas
 {
@@ -16,6 +16,17 @@ namespace ControleDeTarefas
         {
             TelaPrincipal telaPrincipal = new TelaPrincipal();
             ExecutarMenu(telaPrincipal);
+
+            ContatoModelo contato = new ContatoModelo("asdasd", "asdsdsd", "23123", "231", "31231");
+
+
+            string sql = contato
+                .SQL()
+                .Selecionar()
+                .TodosOsCampos()
+                .Onde(contato.campoNome).EhIgualA("12313");
+
+            Console.WriteLine(sql);
 
         }
 

@@ -5,8 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using ControleDeTarefas.Telas.Base;
 using ControleDeTarefas.Telas.Contatos;
+using ControleDeTarefas.Controladores.Legado;
 using ControleDeTarefas.Dominios;
-using ControleDeTarefas.Controladores;
 
 namespace ControleDeTarefas.Telas.Compromissos
 {
@@ -22,7 +22,7 @@ namespace ControleDeTarefas.Telas.Compromissos
         {
             Console.Clear();
 
-            CompromissoModelo novoCompromisso = ObterCompromisso();
+            Compromisso novoCompromisso = ObterCompromisso();
 
             bool conseguiuCriar = controladorCompromisso.Inserir(novoCompromisso);
 
