@@ -1,4 +1,5 @@
 ﻿using ControleDeTarefas.Controladores.Legado;
+using ControleDeTarefas.Controladores;
 using ControleDeTarefas.Dominios;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -12,6 +13,21 @@ namespace ControleDeTarefas.Tests
         public ControladorTarefasTest()
         {
             controladorTarefa = new ControladorTarefa();
+        }
+
+        [TestCleanup]
+        public void LimparTabela()
+        {
+            DBConexao dBConexao = new DBConexao();
+
+            dBConexao.ComConexaoAberta((con) =>
+            {
+                const string sqlExluir = "DELETE FROM [TBTarefa]";
+
+                var comando = dBConexao.CriarSqlCommand(sqlExluir);
+
+                comando.ExecuteNonQuery();
+            });
         }
 
         [TestMethod]
@@ -109,7 +125,7 @@ namespace ControleDeTarefas.Tests
 
             Assert.AreEqual(tarefa.Id, tarefaRecuperada.Id);
             Assert.AreEqual(tarefa.Titulo, tarefaRecuperada.Titulo);
-            Assert.AreEqual(tarefa.DataCriacao.ToString(), tarefaRecuperada.DataCriacao.ToString());
+            Assert.AreEqual(tarefa.DataCriacao.Date.ToString(), tarefaRecuperada.DataCriacao.Date.ToString());
             Assert.AreEqual(tarefa.DataConclusao.ToString(), tarefaRecuperada.DataConclusao.ToString());
             Assert.AreEqual(tarefa.PercentualConcluido, tarefaRecuperada.PercentualConcluido);
             Assert.AreEqual(tarefa.Prioridade, tarefaRecuperada.Prioridade);

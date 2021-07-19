@@ -7,13 +7,12 @@ using System.Data.SQLite;
 
 namespace ControleDeTarefas.Controladores
 {
-    class DBConexao
+    public class DBConexao
     {
         private string bancoEmUso;
         private string connectionString;
 
         private IDbConnection sqlConnection;
-
         public DBConexao()
         {
             bancoEmUso = ConfigurationManager.AppSettings["bancoParaUsar"].ToLower().Trim();

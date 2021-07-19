@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ControleDeTarefas.Controladores;
 using ControleDeTarefas.Controladores.Legado;
 using ControleDeTarefas.Dominios;
 
@@ -21,6 +22,21 @@ namespace ControleDeTarefas.Tests
             this.controladorContato = new ControladorContato();
             this.controladorCompromisso = new ControladorCompromisso(controladorContato);
             this.dataPraTestar = DateTime.Parse("28/06/2021");
+        }
+
+        [TestCleanup]
+        public void LimparTabela()
+        {
+            DBConexao dBConexao = new DBConexao();
+
+            dBConexao.ComConexaoAberta((con) =>
+            {
+                const string sqlExluir = @"DELETE FROM [TBContato]; DELETE FROM [TBCompromisso]";
+
+                var comando = dBConexao.CriarSqlCommand(sqlExluir);
+
+                comando.ExecuteNonQuery();
+            });
         }
 
         [TestMethod]

@@ -22,6 +22,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ControleDeTarefas.Tests", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ControleDeTarefas.Query", "ControleDeTarefas.Query\ControleDeTarefas.Query.csproj", "{F3C0D3E4-E421-4669-A9CA-F56A725EE089}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsFormsApp", "ControleDeTarefas.WindowsFormsApp\WindowsFormsApp\WindowsFormsApp.csproj", "{2458ACA3-0E37-4A2F-AEBD-6E0830AB13D9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -54,6 +56,10 @@ Global
 		{F3C0D3E4-E421-4669-A9CA-F56A725EE089}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F3C0D3E4-E421-4669-A9CA-F56A725EE089}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F3C0D3E4-E421-4669-A9CA-F56A725EE089}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2458ACA3-0E37-4A2F-AEBD-6E0830AB13D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2458ACA3-0E37-4A2F-AEBD-6E0830AB13D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2458ACA3-0E37-4A2F-AEBD-6E0830AB13D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2458ACA3-0E37-4A2F-AEBD-6E0830AB13D9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -65,6 +71,7 @@ Global
 		{1D64D340-FBF7-49C3-A481-FF898E1C7157} = {A057066D-AD7F-4E46-955C-C35A6E908534}
 		{B4A4F119-2104-4E9D-BC06-5196046EFFA3} = {FD89392B-FE93-4E29-B397-17CD1330217E}
 		{F3C0D3E4-E421-4669-A9CA-F56A725EE089} = {A057066D-AD7F-4E46-955C-C35A6E908534}
+		{2458ACA3-0E37-4A2F-AEBD-6E0830AB13D9} = {A057066D-AD7F-4E46-955C-C35A6E908534}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3211C79E-F9F6-45C9-92DA-BA5380E00036}

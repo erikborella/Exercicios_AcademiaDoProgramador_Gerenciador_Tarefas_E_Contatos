@@ -1,4 +1,5 @@
 ﻿using ControleDeTarefas.Controladores.Legado;
+using ControleDeTarefas.Controladores;
 using ControleDeTarefas.Dominios;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -12,6 +13,21 @@ namespace ControleDeTarefas.Tests
         public ControladorContatosTest()
         {
             controladorContato = new ControladorContato();
+        }
+
+        [TestCleanup]
+        public void LimparTabela()
+        {
+            DBConexao dBConexao = new DBConexao();
+
+            dBConexao.ComConexaoAberta((con) =>
+            {
+                const string sqlExluir = "DELETE FROM [TBContato]";
+
+                var comando = dBConexao.CriarSqlCommand(sqlExluir);
+
+                comando.ExecuteNonQuery();
+            });
         }
 
         [TestMethod]
